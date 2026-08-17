@@ -116,38 +116,51 @@
   .btn.log:hover{background:#B81F1F;border-color:#B81F1F}
   .empty{padding:40px 0;color:var(--mute);text-align:center;font-size:13px}
 
-  /* ---------- RECOMMENDER ---------- */
-  .rec{margin:46px 0 0;background:var(--wash);border:1px solid var(--line);
-    border-top:4px solid var(--red);padding:22px 18px}
-  .g-label{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--red);font-weight:700}
-  .g-title{font-size:clamp(20px,4.6vw,29px);font-weight:900;text-transform:uppercase;
+  /* ---------- WHEEL ---------- */
+  .wheel-sec{margin:26px 0 6px;background:var(--wash);border:1px solid var(--line);
+    border-top:4px solid var(--red);padding:20px 18px}
+  .w-label{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--red);font-weight:700}
+  .w-title{font-size:clamp(20px,4.6vw,29px);font-weight:900;text-transform:uppercase;
     letter-spacing:-.025em;margin:8px 0 4px;color:var(--navy)}
-  .g-title span{color:var(--red)}
-  .g-note{color:var(--mute);font-size:12.5px;margin:0 0 16px;max-width:60ch}
-  .heroes{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:8px}
-  .hero{display:flex;align-items:center;gap:9px;padding:9px 10px;cursor:pointer;text-align:left;
-    background:#fff;border:1px solid var(--line);border-radius:2px;font-family:var(--font)}
-  .hero:hover{border-color:var(--navy)}
-  .hero[aria-pressed="true"]{border-color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
-  .hero svg{flex:0 0 auto;width:26px;height:26px}
-  .hero b{font-size:11px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;line-height:1.2;color:var(--ink)}
-  .g-go{margin-top:16px;width:100%;padding:15px;cursor:pointer;font-family:var(--font);
+  .w-title span{color:var(--red)}
+  .w-note{color:var(--mute);font-size:12.5px;margin:0 0 16px;max-width:62ch}
+  .w-body{display:flex;gap:22px;align-items:flex-start;flex-wrap:wrap}
+  .w-stage{flex:0 0 auto;width:290px;max-width:100%;position:relative;margin:0 auto}
+  .w-pointer{position:absolute;top:-3px;left:50%;transform:translateX(-50%);z-index:2;
+    width:0;height:0;border-left:13px solid transparent;border-right:13px solid transparent;
+    border-top:22px solid var(--navy);filter:drop-shadow(0 2px 0 #fff)}
+  #wheelSvg{width:100%;height:auto;display:block;transform:rotate(0deg)}
+  #wheelSvg.spin{transition:transform 4.6s cubic-bezier(.13,.72,.11,1)}
+  .w-side{flex:1 1 300px;min-width:270px}
+  .w-empty{background:#fff;border:1px dashed var(--line);padding:20px 16px;
+    color:var(--mute);font-size:13px;line-height:1.6}
+  .w-empty b{color:var(--navy)}
+  .w-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .w-tag{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);
+    padding:6px 8px 6px 10px;font-size:12px;font-weight:700;color:var(--navy);border-radius:2px}
+  .w-tag span{width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+  .w-tag button{background:none;border:0;cursor:pointer;color:var(--mute);
+    font-family:var(--font);font-size:15px;line-height:1;padding:0 1px}
+  .w-tag button:hover{color:var(--red)}
+  .w-go{width:100%;padding:15px;cursor:pointer;font-family:var(--font);
     font-size:15px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;
     color:#fff;background:var(--red);border:0}
-  .g-go:hover{background:#B81F1F}
-  .g-go:active{transform:translateY(1px)}
-  .verdict{margin-top:14px;background:#fff;border:1px solid var(--navy);
+  .w-go:hover:not(:disabled){background:#B81F1F}
+  .w-go:disabled{background:#C3C9D6;cursor:not-allowed}
+  .w-tools{margin-top:9px;display:flex;gap:8px;flex-wrap:wrap}
+  .w-tools button{flex:1 1 0;min-width:120px;font-family:var(--font);font-size:10.5px;font-weight:700;
+    letter-spacing:.13em;text-transform:uppercase;padding:10px 8px;cursor:pointer;
+    background:#fff;border:1px solid var(--line);color:var(--mute);border-radius:2px}
+  .w-tools button:hover{color:var(--ink);border-color:var(--ink)}
+  .winner{margin-top:14px;background:#fff;border:1px solid var(--navy);
     border-left:4px solid var(--gold);padding:15px;display:none}
-  .verdict.on{display:block}
-  .verdict h3{margin:0;font-size:24px;font-weight:900;letter-spacing:-.02em;color:var(--navy)}
-  .verdict p{margin:7px 0 13px;color:var(--mute);font-size:12.5px}
-  .verdict.rolling h3{opacity:.4}
-  .vhead{display:flex;align-items:center;gap:9px;margin-bottom:9px}
-  .vhead svg{width:24px;height:24px;flex:0 0 auto}
-  .vhead b{font-size:10px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
-  .quote{margin:11px 0 12px;padding:11px 13px;background:var(--wash);
-    border-left:3px solid var(--red);font-size:14px;line-height:1.45;color:var(--ink)}
-  .verdict.rolling .vhead,.verdict.rolling .quote,.verdict.rolling p,.verdict.rolling .acts{opacity:.25}
+  .winner.on{display:block}
+  .winner small{font-size:10px;font-weight:900;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--mute)}
+  .winner h3{margin:6px 0 0;font-size:23px;font-weight:900;letter-spacing:-.02em;color:var(--navy)}
+  .winner p{margin:6px 0 13px;color:var(--mute);font-size:12.5px}
+  .btn.wheel{border-color:var(--gold);color:#8A6100}
+  .btn.wheel.on{background:var(--gold);border-color:var(--gold);color:#231A00}
 
   /* ---------- LOG ---------- */
   .log-sec{margin-top:46px;border-top:2px solid var(--line);padding-top:26px}
@@ -199,10 +212,37 @@
   <div class="score">
     <div><b id="sTotal">0</b><small>Meals logged</small></div>
     <div><b id="sUnique">0</b><small>Places tried</small></div>
-    <div><b id="sLeft">77</b><small>Still to conquer</small></div>
+    <div><b id="sLeft">135</b><small>Still to conquer</small></div>
     <div><b id="sTop">—</b><small>Family favourite</small></div>
   </div>
 </header>
+
+<section class="wheel-sec">
+  <div class="w-label">Cannot decide?</div>
+  <div class="w-title">Spin the <span>wheel</span></div>
+  <p class="w-note">Build a shortlist first — hit <b>Add to wheel</b> on any outlet below, then spin.
+     Only what you add goes on the wheel, so the family can argue it down to a few and let chance settle it.</p>
+  <div class="w-body">
+    <div class="w-stage">
+      <div class="w-pointer"></div>
+      <svg id="wheelSvg" viewBox="0 0 300 300" role="img" aria-label="Restaurant picker wheel"></svg>
+    </div>
+    <div class="w-side">
+      <div id="wList"></div>
+      <button class="w-go" id="spin" disabled>Spin</button>
+      <div class="w-tools">
+        <button id="wFill">Add 8 at random</button>
+        <button id="wClear">Empty the wheel</button>
+      </div>
+      <div class="winner" id="winner" aria-live="polite">
+        <small>Wheel says</small>
+        <h3 id="wName"></h3>
+        <p id="wMeta"></p>
+        <div class="acts" id="wActs"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="controls">
   <div class="bar">
@@ -223,21 +263,6 @@
 <div class="grid" id="grid"></div>
 <div class="empty" id="empty" style="display:none">No outlet matches that. Clear a filter and try again.</div>
 
-<section class="rec">
-  <div class="g-label">Cannot decide?</div>
-  <div class="g-title">Recommendation by <span id="heroName">Doctor Strange</span></div>
-  <p class="g-note" id="heroNote">Looks at 14,000,605 futures and picks one at random. Pure chance, no bias.</p>
-  <div class="heroes" id="heroes"></div>
-  <button class="g-go" id="snap">Snap</button>
-  <div class="verdict" id="verdict" aria-live="polite">
-    <div class="vhead" id="vHead"></div>
-    <h3 id="vName"></h3>
-    <div class="quote" id="vQuote"></div>
-    <p id="vMeta"></p>
-    <div class="acts" id="vActs"></div>
-  </div>
-</section>
-
 <section class="log-sec">
   <h2>Mission <span>log</span></h2>
   <p class="log-note">Saved on this device the moment you tap <b>I dined in</b>. Newest first.</p>
@@ -250,10 +275,10 @@
 </section>
 
 <footer>
-  77 outlets · VivoCity, 1 HarbourFront Walk, Singapore 098585 · HarbourFront MRT<br>
+  135 outlets · VivoCity, 1 HarbourFront Walk, Singapore 098585 · HarbourFront MRT<br>
   Ratings, review counts, unit numbers and phone lines from Google Places, retrieved 17 Aug 2026 — these change over time, so treat them as a guide rather than gospel.
   Per-pax figures are rough estimates for a typical order, excluding drinks, GST and service charge. Always call ahead: not every outlet takes reservations.<br>
-  Character names are used as nicknames for a private family tool only. Made for Kong Fam.
+  Built for the Kong family. The wheel, the visit log and the shortlist all live in this browser only.
 </footer>
 </div>
 <div class="toast" id="toast"></div>
@@ -261,166 +286,148 @@
 <script>
 /* ---------------- DATA ---------------- */
 const R=[
-["Din Tai Fung","B2-38","Chinese",2,25,4.1,67,"6565922202"],
-["Haidilao Hot Pot","03-09","Hotpot & BBQ",3,55,4.7,4221,"6562507557"],
-["Beauty in The Pot","03-08A","Hotpot & BBQ",3,50,4.5,1396,"6562550758"],
-["PUTIEN","02-131/132","Chinese",2,30,4.8,3602,"6563769358"],
-["Paradise Dynasty","02-128/130","Chinese",2,28,4.2,656,"6562066629"],
-["Crystal Jade Jiang Nan","01-52","Chinese",3,45,3.5,213,"6562211830"],
-["Crystal Jade Pavilion","01-112","Chinese",4,70,4.0,712,"6591772005"],
-["Seafood Paradise","01-53","Seafood",4,80,4.7,1063,"6562210159"],
-["Dian Xiao Er","02-138/139","Chinese",2,30,4.5,1694,"6563769786"],
-["Soup Restaurant","02-143","Chinese",2,28,4.6,3019,"6563769969"],
-["Alijiang Silk Road Cuisine","03-11","Chinese",3,40,4.3,1198,"6562524979"],
-["DaXi","02-83/84","Chinese",2,20,4.4,1899,"6560506638"],
-["Riverside Canton Claypot","02-150","Chinese",2,25,4.5,2092,"6560506622"],
-["TamJai SamGor Mixian","B2-28","Chinese",1,15,4.0,513,"6562549803"],
-["Central Hong Kong Cafe","B2-13/14","Chinese",1,15,3.4,593,"6563768270"],
-["Le Shrimp Ramen","B2-25","Chinese",2,18,4.4,624,""],
-["LeNu Chef Wai's Noodle Bar","02-91","Chinese",2,18,4.6,1252,""],
-["Gong Yuan Ma La Tang","B2-31","Chinese",1,15,4.3,486,""],
-["GO Noodle House","B2-24","Chinese",2,18,3.9,297,"6569688323"],
-["White Restaurant","02-121/122","Chinese",2,28,4.7,2471,"6580684438"],
-["Sushi Tei","02-152","Japanese",3,35,4.2,1047,"6563769591"],
-["Genki Sushi","02-65","Japanese",2,25,4.6,2981,""],
-["Ichiban Boshi","B2-07","Japanese",2,25,4.0,543,"6563768318"],
-["AFURI Ramen + Dumpling","01-167","Japanese",2,25,4.0,99,""],
-["Menya Musashi","01-104","Japanese",2,20,3.4,334,"6563769519"],
-["Saboten","02-49","Japanese",3,32,4.4,217,"6565399832"],
-["Tempura-EN","02-111","Japanese",2,28,4.7,3383,"6562732088"],
-["Una Una","02-94","Japanese",3,32,4.2,571,"6562525918"],
-["Yakiniku Like","02-60","Hotpot & BBQ",2,25,4.7,1948,""],
-["Tajimaya Yakiniku / Suki-Ya KIN","01-102/103","Hotpot & BBQ",3,55,4.5,1680,"6563770070"],
-["Aburi-EN","01-159/160","Japanese",2,25,4.6,1473,"6562599603"],
-["Kei Kaisendon","02-136","Japanese",2,25,4.8,383,"6565189926"],
-["Tamago-EN","B2-27","Japanese",2,20,4.4,284,"6562648633"],
-["Monster Curry","02-126/129","Japanese",2,22,4.7,1554,"6562213308"],
-["Tokyo Shokudo","01-54","Japanese",2,22,3.6,206,"6562211880"],
-["Hokkaido-Ya","02-153","Japanese",2,18,3.7,485,"6563769440"],
-["Bornga","02-123/124","Korean",3,45,3.9,900,"6563768268"],
-["Paik's Bibim","02-125","Korean",1,15,3.7,317,"6563770696"],
-["Barossa Steak and Grill","01-161/162","Western",4,65,4.6,4311,"6562551855"],
-["Brotzeit German Bier Bar","01-149","Western",3,50,4.3,3372,"6562728815"],
-["Morganfield's","01-51A","Western",3,45,4.1,797,"6562250501"],
-["SERVUS German Burger Grill","01-57","Western",3,35,4.4,4246,"6588797848"],
-["Shake Shack","01-163/164","Western",2,22,4.6,2166,""],
-["ASTONS Specialities","02-113","Western",2,22,4.6,2176,"6562611557"],
-["Swensen's Unlimited","02-117","Western",3,50,4.6,7920,""],
-["Fish & Co.","02-116","Seafood",2,25,4.2,745,"6562243176"],
-["Marche VivoCity","03-14","Western",3,35,4.5,8685,"6563768226"],
-["Wine Connection Bistro","01-152/154","Western",3,45,4.2,1586,"6588650584"],
-["The Queen & Mangosteen","01-106/107","Western",3,40,4.2,1543,"6563769380"],
-["Tapas Club","01-98/99","Western",3,45,3.9,812,"6591554096"],
-["Poulet","01-175/177","Western",2,28,4.7,16444,"6562311598"],
-["Pizzakaya","01-157","Western",2,22,4.1,530,"6562249690"],
-["Milan Tei","01-167/168","Western",1,15,2.9,164,"6562616032"],
-["Thai Accent","02-143","Thai",3,35,4.2,863,"6563769282"],
-["Sanook Kitchen","B2-23C","Thai",2,20,4.7,1532,"6560506635"],
-["The Original Boat Noodle","02-150","Thai",1,15,3.1,220,"6562642150"],
-["Go-Ang Pratunam Chicken Rice","B2-30","Thai",1,15,4.7,4632,"6560506633"],
-["So Pho","01-171","Vietnamese",2,20,4.4,811,"6562521770"],
-["Mrs Pho","B2-29","Vietnamese",2,18,4.0,538,"6596440332"],
-["Penang Culture","B2-23E","Local & SEA",2,18,4.5,1728,"6569627172"],
-["Encik Tan","B2-45","Local & SEA",1,10,3.9,823,""],
-["Ayam Penyet President","B2-23F","Local & SEA",1,15,4.1,282,"6562663886"],
-["Jia Xiang Sarawak Kolo Mee","B2-38","Local & SEA",1,12,4.1,725,"6562720000"],
-["Food Republic","03-01","Local & SEA",1,12,4.2,6493,"6562760521"],
-["Dancing Crab","03-10","Seafood",4,70,4.5,1938,"6562227377"],
-["Green Common","01-169","Vegetarian",2,25,4.2,313,"6565135808"],
-["McDonald's","B2-44","Fast Food",1,10,4.1,1813,"6567773777"],
-["KFC","B2-32","Fast Food",1,10,3.9,865,""],
-["Burger King","B2-41","Fast Food",1,10,4.0,1525,""],
-["Jollibee","B2-42","Fast Food",1,10,4.0,1365,""],
-["4Fingers Crispy Chicken","02-120","Fast Food",1,14,4.6,422,"6569780482"],
-["MOS Burger","B2-33","Fast Food",1,12,3.9,21,"6562549124"],
-["Burgs","B2-29A","Fast Food",1,14,4.5,673,"6596666041"],
-["Wingstop","02-143","Fast Food",2,18,4.2,596,"6562653690"],
-["Toast Box","B2-54","Cafe & Quick",1,8,3.6,837,""],
-["The Soup Spoon +","B2-26A","Cafe & Quick",1,14,4.0,21,""],
-["Secret Recipe","02-108/109","Cafe & Quick",2,20,3.6,258,"6563769618"]
+["4Fingers Crispy Chicken", "02-120", "Fast Food", 1, 14, 4.6, 422, "6569780482"],
+["Aburi-EN", "01-159/160", "Japanese", 2, 25, 4.6, 1473, "6562599603"],
+["AFURI Ramen + Dumpling", "01-167", "Japanese", 2, 25, 4.0, 99, ""],
+["Ah Mah Homemade Cake", "B2-K8", "Dessert", 1, 12, 3.3, 48, "6563254508"],
+["Alijiang Silk Road Cuisine", "03-11", "Chinese", 3, 40, 4.3, 1198, "6562524979"],
+["ARTEA", "B2-K19", "Bubble Tea & Drinks", 1, 6, 4.0, 1, ""],
+["ASTONS Specialities", "02-113", "Western", 2, 22, 4.6, 2176, "6562611557"],
+["Awfully Chocolate", "01-155/156", "Dessert", 2, 18, 4.4, 835, "6564109725"],
+["Ayam Penyet President", "B2-23F", "Local & SEA", 1, 15, 4.1, 282, "6562663886"],
+["Barossa Steak and Grill", "01-161/162", "Western", 4, 65, 4.6, 4311, "6562551855"],
+["Beard Papa's", "B2-K11", "Dessert", 1, 6, 4.1, 22, ""],
+["Beauty in The Pot", "03-08A", "Hotpot & BBQ", 3, 50, 4.5, 1396, "6562550758"],
+["Ben & Jerry's", "02-K1", "Dessert", 2, 12, 3.2, 184, "6563769917"],
+["Birds of Paradise Gelato", "B2-35", "Dessert", 1, 9, 4.9, 711, "6588564013"],
+["BNC - Bliss Nest Capsules", "01-91", "Dessert", 2, 15, 4.9, 557, "6588415867"],
+["Boost Juice", "02-134", "Bubble Tea & Drinks", 1, 8, 4.1, 11, ""],
+["Boost Juice Express", "B2-K8", "Bubble Tea & Drinks", 1, 8, 3.3, 237, ""],
+["Bornga", "02-123/124", "Korean", 3, 45, 3.9, 900, "6563768268"],
+["BreadTalk", "B2-50", "Cafe & Bakery", 1, 8, 3.9, 282, ""],
+["Brotzeit German Bier Bar", "01-149", "Western", 3, 50, 4.3, 3372, "6562728815"],
+["Bulgogi Syo", "B2-29", "Korean", 2, 25, 4.4, 4321, "6593392829"],
+["Burger King", "B2-41", "Fast Food", 1, 10, 4.0, 1525, ""],
+["Burgs", "B2-29A", "Fast Food", 1, 14, 4.5, 673, "6596666041"],
+["Burnt Cones Gelato", "03-01", "Dessert", 1, 7, 4.9, 465, "6597111097"],
+["Cakebar", "B2-52", "Cafe & Bakery", 2, 14, 4.2, 51, "6596380010"],
+["Cedele", "01-113/114", "Cafe & Bakery", 2, 20, 3.7, 328, "6562211396"],
+["Central Hong Kong Cafe", "B2-13/14", "Chinese", 1, 15, 3.4, 593, "6563768270"],
+["CHAGEE", "01-98", "Bubble Tea & Drinks", 1, 8, 4.8, 3910, "6596781749"],
+["ChaPanda", "B2-23D", "Bubble Tea & Drinks", 1, 6, 5.0, 332, "6585752555"],
+["CHICHA San Chen", "B2-53A", "Bubble Tea & Drinks", 1, 7, 4.7, 119, "6588570172"],
+["Chimichanga", "01-157/158", "Western", 3, 35, 4.7, 1694, "6560150994"],
+["Crystal Jade Jiang Nan", "01-52", "Chinese", 3, 45, 3.5, 213, "6562211830"],
+["Crystal Jade Pavilion", "01-112", "Chinese", 4, 70, 4.0, 712, "6591772005"],
+["Da Paolo Gastronomia", "01-108", "Cafe & Bakery", 2, 25, 4.2, 889, "6562591838"],
+["Dancing Crab", "03-10", "Seafood", 4, 70, 4.5, 1938, "6562227377"],
+["DaXi", "02-83/84", "Chinese", 2, 20, 4.4, 1899, "6560506638"],
+["Dian Xiao Er", "02-138/139", "Chinese", 2, 30, 4.5, 1694, "6563769786"],
+["Din Tai Fung", "B2-38", "Chinese", 2, 25, 4.1, 67, "6565922202"],
+["dipndip", "01-51", "Dessert", 2, 18, 4.3, 594, ""],
+["Dough Magic", "B2", "Snacks", 1, 8, 4.3, 7, ""],
+["Encik Tan", "B2-45", "Local & SEA", 1, 10, 3.9, 823, ""],
+["Fish & Co.", "02-116", "Seafood", 2, 25, 4.2, 745, "6562243176"],
+["Flipper's", "01-188A", "Dessert", 2, 22, 4.2, 594, ""],
+["Food Republic", "03-01", "Local & SEA", 1, 12, 4.2, 6493, "6562760521"],
+["Garrett Popcorn Shops", "02-63", "Snacks", 1, 12, 4.7, 580, "6563769523"],
+["Genki Sushi", "02-65", "Japanese", 2, 25, 4.6, 2981, ""],
+["GO Noodle House", "B2-24", "Chinese", 2, 18, 3.9, 297, "6569688323"],
+["Go-Ang Pratunam Chicken Rice", "B2-30", "Thai", 1, 15, 4.7, 4632, "6560506633"],
+["Gokoku Japanese Bakery", "B2-09", "Cafe & Bakery", 1, 8, 3.9, 68, "6560285748"],
+["Gong Yuan Ma La Tang", "B2-31", "Chinese", 1, 15, 4.3, 486, ""],
+["Green Common", "01-169", "Vegetarian", 2, 25, 4.2, 313, "6565135808"],
+["Haidilao Hot Pot", "03-09", "Hotpot & BBQ", 3, 55, 4.7, 4221, "6562507557"],
+["heytea", "01-111", "Bubble Tea & Drinks", 1, 7, 4.6, 1150, "6562550214"],
+["Hikiniku To Come", "01-102/103", "Japanese", 2, 25, 4.7, 91, ""],
+["Hokkaido-Ya", "02-153", "Japanese", 2, 18, 3.7, 485, "6563769440"],
+["Ichiban Boshi", "B2-07", "Japanese", 2, 25, 4.0, 543, "6563768318"],
+["Ichigo by Tea Cottage", "B2-K25", "Bubble Tea & Drinks", 1, 8, 4.8, 9, "6583658983"],
+["Imperial Kungfu Roti", "B2-K14", "Snacks", 1, 6, 4.4, 12, ""],
+["Jia Xiang Sarawak Kolo Mee", "B2-38", "Local & SEA", 1, 12, 4.1, 725, "6562720000"],
+["Jiak Ba Food Heaven", "B2-K27", "Chinese", 1, 12, 4.4, 203, "6562410052"],
+["Jollibee", "B2-42", "Fast Food", 1, 10, 4.0, 1365, ""],
+["Kazo", "B2-K9", "Cafe & Bakery", 1, 8, 4.2, 105, "6565183052"],
+["Kei Kaisendon", "02-136", "Japanese", 2, 25, 4.8, 383, "6565189926"],
+["Kenangan Coffee", "02-98A", "Cafe & Bakery", 1, 7, 3.8, 59, "6587686929"],
+["KFC", "B2-32", "Fast Food", 1, 10, 3.9, 865, ""],
+["KOI The", "B2-06B", "Bubble Tea & Drinks", 1, 6, 3.8, 203, "6562724085"],
+["Kott-Don 360", "02-123/124/125", "Korean", 3, 40, 4.6, 322, "6590039688"],
+["Le Shrimp Ramen", "B2-25", "Chinese", 2, 18, 4.4, 624, ""],
+["LeNu Chef Wai's Noodle Bar", "02-91", "Chinese", 2, 18, 4.6, 1252, ""],
+["LiHO TEA", "02-95", "Bubble Tea & Drinks", 1, 6, 4.1, 683, "6560275855"],
+["llaollao", "B2-04A", "Dessert", 1, 9, 4.0, 94, "6567052288"],
+["luckin coffee", "02-119", "Cafe & Bakery", 1, 7, 3.6, 61, "6589550605"],
+["Mamma Mia Trattoria e Caffe", "01-116", "Western", 2, 28, 4.7, 17305, "6560506637"],
+["Marche VivoCity", "03-14", "Western", 3, 35, 4.5, 8685, "6563768226"],
+["McDonald's", "B2-44", "Fast Food", 1, 10, 4.1, 1813, "6567773777"],
+["Menya Musashi", "01-104", "Japanese", 2, 20, 3.4, 334, "6563769519"],
+["Milan Tei", "01-167/168", "Western", 1, 15, 2.9, 164, "6562616032"],
+["Mincheng Bibimbap", "B2-26A", "Korean", 1, 12, 4.5, 136, "6585658575"],
+["Monster Curry", "02-126/129", "Japanese", 2, 22, 4.7, 1554, "6562213308"],
+["Morganfield's", "01-51A", "Western", 3, 45, 4.1, 797, "6562250501"],
+["MOS Burger", "B2-33", "Fast Food", 1, 12, 3.9, 21, "6562549124"],
+["Mr. Coconut", "B2-46", "Bubble Tea & Drinks", 1, 6, 4.1, 356, "6560150323"],
+["Mrs Pho", "B2-29", "Vietnamese", 2, 18, 4.0, 538, "6596440332"],
+["Nasty Cookie", "B2-49", "Dessert", 1, 7, 4.0, 152, "6593794648"],
+["Paik's Bibim", "02-125", "Korean", 1, 15, 3.7, 317, "6563770696"],
+["Panda Chan Snack", "B2-04", "Snacks", 1, 10, 3.8, 30, "6560470044"],
+["Paradise Dynasty", "02-128/130", "Chinese", 2, 28, 4.2, 656, "6562066629"],
+["Paris Baguette", "B2-55", "Cafe & Bakery", 2, 15, 4.3, 59, "6565922706"],
+["Penang Culture", "B2-23E", "Local & SEA", 2, 18, 4.5, 1728, "6569627172"],
+["Pizzakaya", "01-157", "Western", 2, 22, 4.1, 530, "6562249690"],
+["PlayMade", "02-118", "Bubble Tea & Drinks", 1, 6, 4.2, 164, "6590883712"],
+["Poulet", "01-175/177", "Western", 2, 28, 4.7, 16444, "6562311598"],
+["Project Acai", "01-92", "Dessert", 2, 16, 4.0, 189, ""],
+["PUTIEN", "02-131/132", "Chinese", 2, 30, 4.8, 3602, "6563769358"],
+["Riverside Canton Claypot", "02-150", "Chinese", 2, 25, 4.5, 2092, "6560506622"],
+["Rollney", "02-133", "Dessert", 1, 10, 3.7, 144, ""],
+["Saboten", "02-49", "Japanese", 3, 32, 4.4, 217, "6565399832"],
+["Sanook Kitchen", "B2-23C", "Thai", 2, 20, 4.7, 1532, "6560506635"],
+["Seafood Paradise", "01-53", "Seafood", 4, 80, 4.7, 1063, "6562210159"],
+["Secret Recipe", "02-108/109", "Cafe & Bakery", 2, 20, 3.6, 258, "6563769618"],
+["SERVUS German Burger Grill", "01-57", "Western", 3, 35, 4.4, 4246, "6588797848"],
+["SF Fruits & Juices", "B2-05A", "Bubble Tea & Drinks", 1, 6, 2.2, 47, "6567603128"],
+["Shake Shack", "01-163/164", "Western", 2, 22, 4.6, 2166, ""],
+["So Pho", "01-171", "Vietnamese", 2, 20, 4.4, 811, "6562521770"],
+["Soup Restaurant", "02-143", "Chinese", 2, 28, 4.6, 3019, "6563769969"],
+["Starbucks", "01-43", "Cafe & Bakery", 2, 10, 4.1, 840, "6569747311"],
+["Surrey Hills Grocer", "03-02", "Cafe & Bakery", 3, 35, 4.7, 1405, "6581896392"],
+["Sushi Tei", "02-152", "Japanese", 3, 35, 4.2, 1047, "6563769591"],
+["Swensen's Unlimited", "02-117", "Western", 3, 50, 4.6, 7920, ""],
+["Tai Cheong Bakery", "B2-02", "Cafe & Bakery", 1, 8, 4.4, 116, "6591291954"],
+["Tajimaya Yakiniku / Suki-Ya KIN", "01-102/103", "Hotpot & BBQ", 3, 55, 4.5, 1680, "6563770070"],
+["Talad Thai Banana", "B2-K13", "Snacks", 1, 8, 3.9, 79, ""],
+["Tamago-EN", "B2-27", "Japanese", 2, 20, 4.4, 284, "6562648633"],
+["TamJai SamGor Mixian", "B2-28", "Chinese", 1, 15, 4.0, 513, "6562549803"],
+["Tapas Club", "01-98/99", "Western", 3, 45, 3.9, 812, "6591554096"],
+["tcc - The Connoisseur Concerto", "02-149", "Cafe & Bakery", 2, 25, 4.2, 617, "6562215455"],
+["Tempura-EN", "02-111", "Japanese", 2, 28, 4.7, 3383, "6562732088"],
+["Thai Accent", "02-143", "Thai", 3, 35, 4.2, 863, "6563769282"],
+["The Coffee Bean & Tea Leaf", "02-04", "Cafe & Bakery", 2, 10, 3.9, 991, ""],
+["The French American Bakery", "B2-K10", "Cafe & Bakery", 1, 8, 3.5, 13, ""],
+["The Original Boat Noodle", "02-150", "Thai", 1, 15, 3.1, 220, "6562642150"],
+["The Queen & Mangosteen", "01-106/107", "Western", 3, 40, 4.2, 1543, "6563769380"],
+["The Soup Spoon +", "B2-26A", "Cafe & Bakery", 1, 14, 4.0, 21, ""],
+["Tim Hortons", "01-207", "Cafe & Bakery", 1, 12, 3.9, 593, ""],
+["Tiong Bahru Bakery", "01-188B", "Cafe & Bakery", 2, 15, 3.7, 253, "6568774874"],
+["Tiong Hoe Specialty Coffee", "B2-23", "Cafe & Bakery", 1, 8, 4.3, 240, ""],
+["Toast Box", "B2-54", "Cafe & Bakery", 1, 8, 3.6, 837, ""],
+["Tokyo Shokudo", "01-54", "Japanese", 2, 22, 3.6, 206, "6562211880"],
+["Una Una", "02-94", "Japanese", 3, 32, 4.2, 571, "6562525918"],
+["VENCHI", "01-K22", "Dessert", 2, 12, 4.8, 287, ""],
+["White Restaurant", "02-121/122", "Chinese", 2, 28, 4.7, 2471, "6580684438"],
+["Wine Connection Bistro", "01-152/154", "Western", 3, 45, 4.2, 1586, "6588650584"],
+["WOK HEY", "B2-K23", "Local & SEA", 1, 10, 4.4, 221, ""],
+["Ya Kun Kaya Toast", "B2-K28", "Cafe & Bakery", 1, 8, 4.2, 736, "6562255789"],
+["Yakiniku Like", "02-60", "Hotpot & BBQ", 2, 25, 4.7, 1948, ""]
 ].map((a,i)=>({id:i,name:a[0],unit:a[1],cuisine:a[2],tier:a[3],pax:a[4],rating:a[5],votes:a[6],tel:a[7]}));
 
 const CUISINES=[...new Set(R.map(r=>r.cuisine))].sort();
 const TIER=["","$","$$","$$$","$$$$"];
 const levelKey=u=>{const s=u.toUpperCase();return s.startsWith("B2")?0:parseInt(s.slice(0,2),10)||9};
 
-/* ---------------- HERO BADGES (abstract monogram marks) ---------------- */
-function badge(mono,c1,c2){
-  return `<svg viewBox="0 0 40 40" aria-hidden="true">
-    <circle cx="20" cy="20" r="18" fill="${c1}"/>
-    <circle cx="20" cy="20" r="18" fill="none" stroke="${c2}" stroke-width="3"/>
-    <text x="20" y="20" text-anchor="middle" dominant-baseline="central"
-      font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="bold"
-      fill="#fff" letter-spacing="-0.5">${mono}</text></svg>`;
-}
 
-/* ------------- HEROES -------------
-   Each hero shortlists by a rule that matches the character, then picks at
-   random from that shortlist, weighted towards the top. say() explains the
-   pick in the character's own voice, using the real numbers.              */
-let lastPick=null;
-
-function weightedPick(ranked,depth){
-  let pool=ranked.slice(0,Math.max(1,Math.min(depth,ranked.length)));
-  if(pool.length>1&&lastPick!=null){
-    const f=pool.filter(r=>r.id!==lastPick);
-    if(f.length)pool=f;
-  }
-  const w=pool.map((_,i)=>pool.length-i);
-  let n=Math.random()*w.reduce((a,b)=>a+b,0);
-  for(let i=0;i<pool.length;i++){n-=w[i];if(n<=0)return pool[i]}
-  return pool[pool.length-1];
-}
-function plainPick(pool){
-  let p=pool;
-  if(p.length>1&&lastPick!=null){const f=p.filter(r=>r.id!==lastPick);if(f.length)p=f}
-  return p[Math.floor(Math.random()*p.length)];
-}
-const isFeast=r=>r.cuisine==="Hotpot & BBQ"||r.pax>=50;
-const isQuick=r=>["Fast Food","Cafe & Quick","Local & SEA"].includes(r.cuisine)||r.pax<=15;
-const isUnderdog=r=>r.cuisine==="Local & SEA"||r.votes<800;
-
-const HEROES=[
- {n:"Doctor Strange", m:"DS", c1:"#6B33B8", c2:"#E0A013",
-  d:"Sees every outcome at once, and refuses to explain the choice. Pure random.",
-  f:l=>plainPick(l),
-  say:r=>`I looked forward in time at fourteen million, six hundred and five futures. You eat at ${r.name} in this one.`},
-
- {n:"Tony Stark", m:"TS", c1:"#B81F1F", c2:"#E0A013",
-  d:"Money is not a consideration. Picks the most expensive thing on your filter.",
-  f:l=>weightedPick([...l].sort((a,b)=>b.pax-a.pax||b.rating-a.rating),5),
-  say:r=>`About $${r.pax} a head at ${r.name}. That's not the expensive part of my day. #${r.unit} — go.`},
-
- {n:"Captain America", m:"CA", c1:"#1B2A5B", c2:"#D62828",
-  d:"Loyal to a fault. Sends you back to wherever this family goes most.",
-  f:l=>{const v=l.filter(r=>count(r.id));
-        return v.length ? weightedPick([...v].sort((a,b)=>count(b.id)-count(a.id)||b.rating-a.rating),3)
-                        : weightedPick([...l].sort((a,b)=>b.rating-a.rating||b.votes-a.votes),5)},
-  say:r=>{const c=count(r.id);
-    return c ? `You've eaten at ${r.name} ${c} time${c>1?"s":""} already. Some things are worth being loyal to. I'm with you till the end of the line.`
-             : `No history to be loyal to yet. Start with the best on the board — ${r.name}, ${r.rating.toFixed(1)}★. We'll build the record from there.`}},
-
- {n:"Thor", m:"TH", c1:"#1F6FB8", c2:"#B8B8C4",
-  d:"Feasting only. Buffets, hotpot, BBQ and big shared tables.",
-  f:l=>{const g=l.filter(isFeast);
-        return weightedPick([...(g.length?g:l)].sort((a,b)=>b.pax-a.pax||b.rating-a.rating),6)},
-  say:r=>`${r.name}. A proper feast — reckon on $${r.pax} a head, and bring the whole hall. ANOTHER!`},
-
- {n:"Hulk", m:"HK", c1:"#2E7D32", c2:"#6B33B8",
-  d:"Will not wait. Quick counters, food court and no-booking spots only.",
-  f:l=>{const g=l.filter(isQuick);
-        return weightedPick([...(g.length?g:l)].sort((a,b)=>a.pax-b.pax||b.rating-a.rating),7)},
-  say:r=>`${r.name}. #${r.unit}. $${r.pax}. No booking, no waiting, no menu discussion. HULK EAT NOW.`},
-
- {n:"Spider-Man", m:"SM", c1:"#C81F2B", c2:"#1B4FA8",
-  d:"Friendly neighbourhood pick. Small local spots the family has never tried.",
-  f:l=>{const n=l.filter(r=>isUnderdog(r)&&!count(r.id));
-        const b=n.length?n:l.filter(isUnderdog);
-        const g=b.length?b:l;
-        return weightedPick([...g].sort((a,b)=>a.votes-b.votes||b.rating-a.rating),7)},
-  say:r=>`${r.name} — $${r.pax} a head, only ${r.votes.toLocaleString()} reviews, and you've never been. Somebody's gotta look out for the little guy.`}
-];
-let hero=0;
 
 /* ---------------- STORAGE ---------------- */
 const KEY="kongfam:vivocity:visits";
@@ -435,8 +442,10 @@ const Store={
     try{localStorage.setItem(k,v);return true}catch(e){MEM[k]=v;return false}
   }
 };
-let LOG=[];
+const WKEY="kongfam:vivocity:wheel";
+let LOG=[], WHEEL=[];
 const save=()=>Store.set(KEY,JSON.stringify(LOG));
+const saveWheel=()=>Store.set(WKEY,JSON.stringify(WHEEL));
 const count=id=>LOG.filter(e=>e.id===id).length;
 
 /* ---------------- STATE ---------------- */
@@ -461,7 +470,9 @@ function filtered(){
 function actions(r,cls){
   const t=r.tel?`<a class="btn call" href="tel:+${r.tel}">Call to reserve</a>`
                :`<span class="btn call off">No direct line</span>`;
-  return `${t}<button class="btn log" data-log="${r.id}">${cls}</button>`;
+  const on=WHEEL.includes(r.id);
+  const w=`<button class="btn wheel${on?" on":""}" data-wheel="${r.id}">${on?"On the wheel":"Add to wheel"}</button>`;
+  return `${w}${t}<button class="btn log" data-log="${r.id}">${cls}</button>`;
 }
 
 function render(){
@@ -509,12 +520,9 @@ let tt;
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");
   clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2200)}
 
-/* ---------------- CHIPS & HEROES ---------------- */
+/* ---------------- CHIPS ---------------- */
 $("#chips").innerHTML=`<button class="chip" data-c="" aria-pressed="true">All cuisines</button>`+
   CUISINES.map(c=>`<button class="chip" data-c="${esc(c)}" aria-pressed="false">${esc(c)}</button>`).join("");
-$("#heroes").innerHTML=HEROES.map((h,i)=>
-  `<button class="hero" data-h="${i}" aria-pressed="${i===0}">${badge(h.m,h.c1,h.c2)}<b>${esc(h.n)}</b></button>`).join("");
-
 $("#chips").onclick=e=>{
   const b=e.target.closest(".chip");if(!b)return;
   const c=b.dataset.c;
@@ -523,48 +531,129 @@ $("#chips").onclick=e=>{
     x.setAttribute("aria-pressed", x.dataset.c ? picked.has(x.dataset.c) : !picked.size));
   render();
 };
-$("#heroes").onclick=e=>{
-  const b=e.target.closest(".hero");if(!b)return;
-  hero=+b.dataset.h;
-  [...$("#heroes").children].forEach((x,i)=>x.setAttribute("aria-pressed",i===hero));
-  $("#heroName").textContent=HEROES[hero].n;
-  $("#heroNote").textContent=HEROES[hero].d;
-  $("#verdict").classList.remove("on");
-};
 $("#q").oninput=e=>{qStr=e.target.value.trim().toLowerCase();render()};
 $("#sort").onchange=e=>{sortBy=e.target.value;render()};
 
-/* ---------------- SNAP ---------------- */
-$("#snap").onclick=()=>{
-  const l=filtered();
-  if(!l.length){toast("Nothing matches those filters");return}
-  const H=HEROES[hero];
-  const v=$("#verdict");v.classList.add("on","rolling");
-  $("#vHead").innerHTML=badge(H.m,H.c1,H.c2)+"<b>"+esc(H.n)+" picks</b>";
-  const spin=setInterval(()=>{$("#vName").textContent=l[Math.floor(Math.random()*l.length)].name},60);
+/* ---------------- WHEEL ---------------- */
+const WCOL=["#D62828","#1B2A5B","#E0A013","#0E9B8E","#6B33B8","#B85C00",
+            "#2E7D32","#0E5AA8","#A31545","#4A5A2B","#7A2E8E","#00707A"];
+const MAXW=12;
+let spinning=false, rot=0;
+
+function wheelSet(){return WHEEL.map(id=>R[id]).filter(Boolean)}
+
+function drawWheel(){
+  const w=wheelSet(), n=w.length, svg=$("#wheelSvg"), C=150, RAD=138;
+  if(!n){
+    svg.innerHTML=`<circle cx="150" cy="150" r="138" fill="#fff" stroke="#D9DEE9" stroke-width="2"
+      stroke-dasharray="7 7"/><text x="150" y="145" text-anchor="middle" font-family="Arial"
+      font-size="13" font-weight="bold" fill="#8C96AE">Wheel is empty</text>
+      <text x="150" y="166" text-anchor="middle" font-family="Arial" font-size="11"
+      fill="#8C96AE">Add outlets below</text>`;
+    return;
+  }
+  const seg=360/n, rad=d=>(d-90)*Math.PI/180;
+  let out="";
+  w.forEach((r,i)=>{
+    const a0=rad(i*seg), a1=rad((i+1)*seg);
+    const x0=C+RAD*Math.cos(a0), y0=C+RAD*Math.sin(a0);
+    const x1=C+RAD*Math.cos(a1), y1=C+RAD*Math.sin(a1);
+    const big=seg>180?1:0;
+    const d=n===1?`M${C-RAD} ${C}a${RAD} ${RAD} 0 1 0 ${RAD*2} 0a${RAD} ${RAD} 0 1 0 ${-RAD*2} 0`
+                 :`M${C} ${C}L${x0.toFixed(1)} ${y0.toFixed(1)}A${RAD} ${RAD} 0 ${big} 1 ${x1.toFixed(1)} ${y1.toFixed(1)}Z`;
+    out+=`<path d="${d}" fill="${WCOL[i%WCOL.length]}" stroke="#fff" stroke-width="2"/>`;
+    const mid=(i+0.5)*seg, mr=rad(mid);
+    const tx=C+RAD*0.63*Math.cos(mr), ty=C+RAD*0.63*Math.sin(mr);
+    let lbl=r.name.length>17?r.name.slice(0,16)+"…":r.name;
+    const flip=mid>180?180:0;
+    out+=`<text x="${tx.toFixed(1)}" y="${ty.toFixed(1)}" fill="#fff" font-family="Arial"
+      font-size="${n>9?9:n>6?10.5:12}" font-weight="bold" text-anchor="middle"
+      dominant-baseline="central"
+      transform="rotate(${(mid-90+flip).toFixed(1)} ${tx.toFixed(1)} ${ty.toFixed(1)})">${esc(lbl)}</text>`;
+  });
+  out+=`<circle cx="150" cy="150" r="20" fill="#fff" stroke="#1B2A5B" stroke-width="3"/>`;
+  svg.innerHTML=out;
+}
+
+function renderWheel(){
+  const w=wheelSet(), box=$("#wList");
+  if(!w.length){
+    box.innerHTML=`<div class="w-empty">Nothing on the wheel yet.<br>
+      Scroll down, find somewhere you'd actually eat, and press <b>Add to wheel</b>.
+      Three or four is plenty — a wheel with everything on it is just a coin toss.</div>`;
+  }else{
+    box.innerHTML=`<div class="w-list">`+w.map((r,i)=>
+      `<span class="w-tag"><span style="background:${WCOL[i%WCOL.length]}"></span>${esc(r.name)}
+       <button data-unwheel="${r.id}" aria-label="Remove ${esc(r.name)} from wheel">×</button></span>`).join("")+`</div>`;
+  }
+  $("#spin").disabled = w.length<2 || spinning;
+  $("#spin").textContent = spinning?"Spinning…":(w.length<2?"Add 2 or more":"Spin");
+  drawWheel();
+}
+
+async function toggleWheel(id){
+  const i=WHEEL.indexOf(id);
+  if(i>-1){WHEEL.splice(i,1);toast("Removed from wheel")}
+  else{
+    if(WHEEL.length>=MAXW){toast("Wheel is full at "+MAXW);return}
+    WHEEL.push(id);toast("Added: "+R[id].name);
+  }
+  $("#winner").classList.remove("on");
+  await saveWheel();renderWheel();render();
+}
+
+$("#spin").onclick=()=>{
+  const w=wheelSet();
+  if(w.length<2||spinning)return;
+  spinning=true;renderWheel();
+  $("#winner").classList.remove("on");
+  const n=w.length, seg=360/n;
+  const pick=Math.floor(Math.random()*n);
+  const svg=$("#wheelSvg");
+  const reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  rot += (reduce?0:360*5) + ((360 - (rot%360) - (pick+0.5)*seg)%360+360)%360;
+  svg.classList.toggle("spin",!reduce);
+  svg.style.transform=`rotate(${rot}deg)`;
   setTimeout(()=>{
-    clearInterval(spin);v.classList.remove("rolling");
-    const r=HEROES[hero].f(l);
-    lastPick=r.id;
-    $("#vName").textContent=r.name;
-    $("#vQuote").textContent=H.say(r);
-    $("#vMeta").textContent=`#${r.unit} · ${r.cuisine} · ${r.rating.toFixed(1)}★ from ${r.votes.toLocaleString()} Google reviews · about $${r.pax} per pax`;
-    $("#vActs").innerHTML=actions(r,count(r.id)?"Dined in again":"I dined in");
-  },820);
+    spinning=false;renderWheel();
+    const r=w[pick];
+    $("#wName").textContent=r.name;
+    $("#wMeta").textContent=`#${r.unit} · ${r.cuisine} · ${r.rating.toFixed(1)}★ from ${r.votes.toLocaleString()} Google reviews · about $${r.pax} per pax`;
+    $("#wActs").innerHTML=actions(r,count(r.id)?"Dined in again":"I dined in");
+    $("#winner").classList.add("on");
+  }, reduce?60:4700);
+};
+
+$("#wFill").onclick=async()=>{
+  const pool=filtered().filter(r=>!WHEEL.includes(r.id));
+  if(!pool.length){toast("Nothing left to add");return}
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]]}
+  WHEEL=pool.slice(0,Math.min(8,MAXW)).map(r=>r.id);
+  $("#winner").classList.remove("on");
+  await saveWheel();renderWheel();render();
+  toast("Wheel filled from your filter");
+};
+$("#wClear").onclick=async()=>{
+  if(!WHEEL.length){toast("Wheel is already empty");return}
+  WHEEL=[];$("#winner").classList.remove("on");
+  await saveWheel();renderWheel();render();toast("Wheel emptied");
 };
 
 /* ---------------- LOGGING ---------------- */
 document.addEventListener("click",async e=>{
+  const wb=e.target.closest("[data-wheel]");
+  if(wb){await toggleWheel(+wb.dataset.wheel);return}
+  const wu=e.target.closest("[data-unwheel]");
+  if(wu){await toggleWheel(+wu.dataset.unwheel);return}
   const b=e.target.closest("[data-log]");
   if(b){
     const r=R[+b.dataset.log];
     LOG.push({id:r.id,name:r.name,t:Date.now()});
     const ok=await save();
     renderLog();render();
-    if($("#verdict").classList.contains("on")){
-      const cur=$("#vName").textContent;
-      const m=R.find(x=>x.name===cur);
-      if(m)$("#vActs").innerHTML=actions(m,"Dined in again");
+    if($("#winner").classList.contains("on")){
+      const m=R.find(x=>x.name===$("#wName").textContent);
+      if(m)$("#wActs").innerHTML=actions(m,"Dined in again");
     }
     toast(ok?"Logged: "+r.name:"Logged (this session only)");
     return;
@@ -596,7 +685,9 @@ $("#exp").onclick=async()=>{
 (async()=>{
   const raw=await Store.get(KEY);
   if(raw){try{LOG=JSON.parse(raw)||[]}catch(e){LOG=[]}}
-  renderLog();render();
+  const wraw=await Store.get(WKEY);
+  if(wraw){try{WHEEL=(JSON.parse(wraw)||[]).filter(i=>R[i])}catch(e){WHEEL=[]}}
+  renderLog();renderWheel();render();
 })();
 </script>
 
