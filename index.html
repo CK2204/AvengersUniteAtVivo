@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en-SG">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="A private dining directory for the Kong family: all 77 food outlets at VivoCity, Singapore, with Google ratings, per-pax estimates, reservation numbers and a visit log.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23D62828'/%3E%3Ctext x='16' y='16' text-anchor='middle' dominant-baseline='central' font-family='Arial' font-size='17' font-weight='bold' fill='%23fff'%3EKF%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kong Fam — VivoCity Dining Codex</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box}
+  :root{
+    --paper:#FFFFFF;
+    --wash:#F3F5F9;
+    --card:#FFFFFF;
+    --line:#D9DEE9;
+    --line-2:#EDF0F6;
+    --ink:#10131C;
+    --mute:#66708A;
+    --red:#D62828;
+    --gold:#E0A013;
+    --navy:#1B2A5B;
+    --purple:#6B33B8;
+    --teal:#0E9B8E;
+    --font:Arial, "Helvetica Neue", Helvetica, sans-serif;
+  }
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);
+    font-size:15px;line-height:1.45;
+    background-image:
+      radial-gradient(760px 420px at 8% -6%, rgba(107,51,184,.10), transparent 62%),
+      radial-gradient(680px 400px at 96% 2%, rgba(214,40,40,.10), transparent 62%);
+    background-repeat:no-repeat;background-attachment:fixed;
+  }
+  .halftone{position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.30;
+    background-image:radial-gradient(rgba(27,42,91,.30) .6px, transparent .7px);
+    background-size:5px 5px}
+  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 16px 80px}
+
+  /* ---------- HEADER ---------- */
+  header{padding:30px 0 18px}
+  .stamp{display:inline-block;font-weight:700;font-size:11px;letter-spacing:.34em;
+    text-transform:uppercase;color:#fff;background:var(--red);
+    padding:7px 14px 6px;transform:skewX(-10deg);box-shadow:4px 4px 0 var(--gold)}
+  .stamp span{display:inline-block;transform:skewX(10deg)}
+  h1{margin:20px 0 4px;font-size:clamp(38px,9.5vw,86px);line-height:.86;
+    font-weight:900;letter-spacing:-.035em;text-transform:uppercase;color:var(--navy);
+    text-shadow:3px 3px 0 rgba(214,40,40,.9), 6px 6px 0 rgba(224,160,19,.55)}
+  h1 em{font-style:normal;display:block;color:var(--red);
+    font-size:.40em;letter-spacing:.16em;margin-top:12px;text-shadow:none}
+  .sub{color:var(--mute);max-width:64ch;margin:14px 0 0;font-size:14px}
+  .sub b{color:var(--navy);font-weight:700}
+
+  /* ---------- SCOREBOARD ---------- */
+  .score{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:24px 0 6px}
+  .score div{background:var(--wash);border:1px solid var(--line);padding:12px 13px;
+    border-left:3px solid var(--red)}
+  .score b{display:block;font-size:26px;font-weight:900;letter-spacing:-.02em;line-height:1;color:var(--navy)}
+  .score small{display:block;color:var(--mute);font-size:10px;letter-spacing:.16em;
+    text-transform:uppercase;margin-top:6px}
+
+  /* ---------- FILTERS ---------- */
+  .controls{margin:26px 0 4px}
+  .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  input[type=search],select{
+    font-family:var(--font);font-size:14px;color:var(--ink);background:#fff;
+    border:1px solid var(--line);padding:11px 13px;border-radius:2px;-webkit-appearance:none}
+  input[type=search]{flex:1 1 240px}
+  input[type=search]:focus,select:focus{outline:2px solid var(--navy);outline-offset:1px}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .chip{font-family:var(--font);font-size:11.5px;font-weight:700;letter-spacing:.06em;
+    text-transform:uppercase;padding:8px 12px;cursor:pointer;background:#fff;color:var(--mute);
+    border:1px solid var(--line);border-radius:2px}
+  .chip:hover{color:var(--ink);border-color:var(--navy)}
+  .chip[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+  .count{margin:16px 0 4px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+
+  /* ---------- CARDS ---------- */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;margin-top:12px}
+  .card{background:var(--card);border:1px solid var(--line);padding:16px 16px 14px;
+    display:flex;flex-direction:column;position:relative;box-shadow:3px 3px 0 rgba(27,42,91,.07);
+    clip-path:polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%)}
+  .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--red)}
+  .card.eaten::before{background:var(--teal)}
+  .card.eaten{border-color:#9BD3CD}
+  .tally{position:absolute;top:12px;right:14px;font-size:10px;font-weight:900;letter-spacing:.12em;
+    color:var(--teal);text-transform:uppercase}
+  .name{font-size:17px;font-weight:900;letter-spacing:-.015em;margin:0 62px 6px 0;line-height:1.15;color:var(--navy)}
+  .meta{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:12px}
+  .meta i{font-style:normal;color:var(--red);font-weight:700}
+
+  .rate{display:flex;align-items:center;gap:10px;background:var(--wash);
+    border:1px solid var(--line-2);padding:10px 12px;margin-bottom:8px}
+  .rate .num{font-size:26px;font-weight:900;line-height:1;letter-spacing:-.03em;color:var(--navy)}
+  .rate .col{flex:1 1 auto;min-width:0}
+  .stars{position:relative;display:inline-block;font-size:14px;line-height:1;letter-spacing:2px;
+    color:#C7CEDC;white-space:nowrap}
+  .stars i{position:absolute;left:0;top:0;overflow:hidden;color:var(--gold);white-space:nowrap;font-style:normal}
+  .rate small{display:block;font-size:10.5px;color:var(--mute);margin-top:5px;letter-spacing:.04em}
+  .price{display:flex;align-items:baseline;gap:8px;border:1px solid var(--line-2);
+    background:var(--wash);padding:9px 12px;margin-bottom:12px}
+  .price b{font-size:17px;font-weight:900;color:var(--teal);letter-spacing:-.01em}
+  .price small{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+  .price em{margin-left:auto;font-style:normal;font-weight:900;color:var(--gold);letter-spacing:.06em}
+
+  .acts{display:flex;gap:7px;margin-top:auto;flex-wrap:wrap}
+  .btn{flex:1 1 0;min-width:100px;text-align:center;text-decoration:none;cursor:pointer;
+    font-family:var(--font);font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+    padding:11px 6px;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:2px}
+  .btn:hover{border-color:var(--navy)}
+  .btn.call{border-color:var(--navy);color:var(--navy)}
+  .btn.call.off{opacity:.4;pointer-events:none;border-color:var(--line);color:var(--mute)}
+  .btn.log{background:var(--red);border-color:var(--red);color:#fff}
+  .btn.log:hover{background:#B81F1F;border-color:#B81F1F}
+  .empty{padding:40px 0;color:var(--mute);text-align:center;font-size:13px}
+
+  /* ---------- RECOMMENDER ---------- */
+  .rec{margin:46px 0 0;background:var(--wash);border:1px solid var(--line);
+    border-top:4px solid var(--red);padding:22px 18px}
+  .g-label{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--red);font-weight:700}
+  .g-title{font-size:clamp(20px,4.6vw,29px);font-weight:900;text-transform:uppercase;
+    letter-spacing:-.025em;margin:8px 0 4px;color:var(--navy)}
+  .g-title span{color:var(--red)}
+  .g-note{color:var(--mute);font-size:12.5px;margin:0 0 16px;max-width:60ch}
+  .heroes{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:8px}
+  .hero{display:flex;align-items:center;gap:9px;padding:9px 10px;cursor:pointer;text-align:left;
+    background:#fff;border:1px solid var(--line);border-radius:2px;font-family:var(--font)}
+  .hero:hover{border-color:var(--navy)}
+  .hero[aria-pressed="true"]{border-color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
+  .hero svg{flex:0 0 auto;width:26px;height:26px}
+  .hero b{font-size:11px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;line-height:1.2;color:var(--ink)}
+  .g-go{margin-top:16px;width:100%;padding:15px;cursor:pointer;font-family:var(--font);
+    font-size:15px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;
+    color:#fff;background:var(--red);border:0}
+  .g-go:hover{background:#B81F1F}
+  .g-go:active{transform:translateY(1px)}
+  .verdict{margin-top:14px;background:#fff;border:1px solid var(--navy);
+    border-left:4px solid var(--gold);padding:15px;display:none}
+  .verdict.on{display:block}
+  .verdict h3{margin:0;font-size:24px;font-weight:900;letter-spacing:-.02em;color:var(--navy)}
+  .verdict p{margin:7px 0 13px;color:var(--mute);font-size:12.5px}
+  .verdict.rolling h3{opacity:.4}
+  .vhead{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+  .vhead svg{width:24px;height:24px;flex:0 0 auto}
+  .vhead b{font-size:10px;font-weight:900;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+  .quote{margin:11px 0 12px;padding:11px 13px;background:var(--wash);
+    border-left:3px solid var(--red);font-size:14px;line-height:1.45;color:var(--ink)}
+  .verdict.rolling .vhead,.verdict.rolling .quote,.verdict.rolling p,.verdict.rolling .acts{opacity:.25}
+
+  /* ---------- LOG ---------- */
+  .log-sec{margin-top:46px;border-top:2px solid var(--line);padding-top:26px}
+  h2{font-size:clamp(23px,5.2vw,34px);font-weight:900;text-transform:uppercase;
+    letter-spacing:-.025em;margin:0 0 4px;color:var(--navy)}
+  h2 span{color:var(--red)}
+  .log-note{color:var(--mute);font-size:12.5px;margin:0 0 16px}
+  .entries{display:flex;flex-direction:column;gap:7px}
+  .entry{display:flex;align-items:center;gap:12px;background:#fff;
+    border:1px solid var(--line);border-left:3px solid var(--teal);padding:11px 13px}
+  .entry b{font-size:14px;font-weight:700;flex:1 1 auto;min-width:0;color:var(--navy)}
+  .entry time{font-size:11px;color:var(--mute);letter-spacing:.06em;white-space:nowrap}
+  .entry button{background:none;border:0;color:var(--mute);cursor:pointer;font-family:var(--font);
+    font-size:17px;line-height:1;padding:4px 2px}
+  .entry button:hover{color:var(--red)}
+  .log-tools{margin-top:16px;display:flex;gap:9px;flex-wrap:wrap}
+  .tool{font-family:var(--font);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    padding:10px 14px;cursor:pointer;background:#fff;border:1px solid var(--line);color:var(--mute);border-radius:2px}
+  .tool:hover{color:var(--ink);border-color:var(--ink)}
+
+  footer{margin-top:44px;border-top:1px solid var(--line);padding-top:18px;
+    color:#8B93A8;font-size:11px;line-height:1.7}
+
+  .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,26px);z-index:50;
+    background:var(--navy);color:#fff;font-weight:900;font-size:12px;letter-spacing:.12em;
+    text-transform:uppercase;padding:13px 22px;opacity:0;transition:.24s;pointer-events:none;
+    box-shadow:4px 4px 0 var(--gold)}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+
+  @media (max-width:620px){.score{grid-template-columns:1fr 1fr}}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="halftone"></div>
+<div class="wrap">
+
+<header>
+  <div class="stamp"><span>Created for Kong Fam</span></div>
+  <h1>VivoCity<em>Dining Codex</em></h1>
+  <p class="sub">
+    Every food outlet at 1 HarbourFront Walk, in one place. Filter by cuisine, read the
+    <b>Google score</b> on the card itself, call to reserve, then tap <b>I dined in</b> to log the visit.
+    Ratings and unit numbers pulled from Google Places on 17 Aug 2026 — per-pax figures are
+    indicative estimates, not quoted prices.
+  </p>
+
+  <div class="score">
+    <div><b id="sTotal">0</b><small>Meals logged</small></div>
+    <div><b id="sUnique">0</b><small>Places tried</small></div>
+    <div><b id="sLeft">77</b><small>Still to conquer</small></div>
+    <div><b id="sTop">—</b><small>Family favourite</small></div>
+  </div>
+</header>
+
+<section class="controls">
+  <div class="bar">
+    <input type="search" id="q" placeholder="Search a restaurant or cuisine…" aria-label="Search restaurants">
+    <select id="sort" aria-label="Sort">
+      <option value="rating">Sort: Best rated</option>
+      <option value="reviews">Sort: Most reviewed</option>
+      <option value="cheap">Sort: Cheapest first</option>
+      <option value="posh">Sort: Priciest first</option>
+      <option value="az">Sort: A–Z</option>
+      <option value="level">Sort: By mall level</option>
+    </select>
+  </div>
+  <div class="chips" id="chips"></div>
+  <div class="count" id="count"></div>
+</section>
+
+<div class="grid" id="grid"></div>
+<div class="empty" id="empty" style="display:none">No outlet matches that. Clear a filter and try again.</div>
+
+<section class="rec">
+  <div class="g-label">Cannot decide?</div>
+  <div class="g-title">Recommendation by <span id="heroName">Doctor Strange</span></div>
+  <p class="g-note" id="heroNote">Looks at 14,000,605 futures and picks one at random. Pure chance, no bias.</p>
+  <div class="heroes" id="heroes"></div>
+  <button class="g-go" id="snap">Snap</button>
+  <div class="verdict" id="verdict" aria-live="polite">
+    <div class="vhead" id="vHead"></div>
+    <h3 id="vName"></h3>
+    <div class="quote" id="vQuote"></div>
+    <p id="vMeta"></p>
+    <div class="acts" id="vActs"></div>
+  </div>
+</section>
+
+<section class="log-sec">
+  <h2>Mission <span>log</span></h2>
+  <p class="log-note">Saved on this device the moment you tap <b>I dined in</b>. Newest first.</p>
+  <div class="entries" id="entries"></div>
+  <div class="log-tools">
+    <button class="tool" id="undo">Undo last entry</button>
+    <button class="tool" id="wipe">Clear whole log</button>
+    <button class="tool" id="exp">Copy log as text</button>
+  </div>
+</section>
+
+<footer>
+  77 outlets · VivoCity, 1 HarbourFront Walk, Singapore 098585 · HarbourFront MRT<br>
+  Ratings, review counts, unit numbers and phone lines from Google Places, retrieved 17 Aug 2026 — these change over time, so treat them as a guide rather than gospel.
+  Per-pax figures are rough estimates for a typical order, excluding drinks, GST and service charge. Always call ahead: not every outlet takes reservations.<br>
+  Character names are used as nicknames for a private family tool only. Made for Kong Fam.
+</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---------------- DATA ---------------- */
+const R=[
+["Din Tai Fung","B2-38","Chinese",2,25,4.1,67,"6565922202"],
+["Haidilao Hot Pot","03-09","Hotpot & BBQ",3,55,4.7,4221,"6562507557"],
+["Beauty in The Pot","03-08A","Hotpot & BBQ",3,50,4.5,1396,"6562550758"],
+["PUTIEN","02-131/132","Chinese",2,30,4.8,3602,"6563769358"],
+["Paradise Dynasty","02-128/130","Chinese",2,28,4.2,656,"6562066629"],
+["Crystal Jade Jiang Nan","01-52","Chinese",3,45,3.5,213,"6562211830"],
+["Crystal Jade Pavilion","01-112","Chinese",4,70,4.0,712,"6591772005"],
+["Seafood Paradise","01-53","Seafood",4,80,4.7,1063,"6562210159"],
+["Dian Xiao Er","02-138/139","Chinese",2,30,4.5,1694,"6563769786"],
+["Soup Restaurant","02-143","Chinese",2,28,4.6,3019,"6563769969"],
+["Alijiang Silk Road Cuisine","03-11","Chinese",3,40,4.3,1198,"6562524979"],
+["DaXi","02-83/84","Chinese",2,20,4.4,1899,"6560506638"],
+["Riverside Canton Claypot","02-150","Chinese",2,25,4.5,2092,"6560506622"],
+["TamJai SamGor Mixian","B2-28","Chinese",1,15,4.0,513,"6562549803"],
+["Central Hong Kong Cafe","B2-13/14","Chinese",1,15,3.4,593,"6563768270"],
+["Le Shrimp Ramen","B2-25","Chinese",2,18,4.4,624,""],
+["LeNu Chef Wai's Noodle Bar","02-91","Chinese",2,18,4.6,1252,""],
+["Gong Yuan Ma La Tang","B2-31","Chinese",1,15,4.3,486,""],
+["GO Noodle House","B2-24","Chinese",2,18,3.9,297,"6569688323"],
+["White Restaurant","02-121/122","Chinese",2,28,4.7,2471,"6580684438"],
+["Sushi Tei","02-152","Japanese",3,35,4.2,1047,"6563769591"],
+["Genki Sushi","02-65","Japanese",2,25,4.6,2981,""],
+["Ichiban Boshi","B2-07","Japanese",2,25,4.0,543,"6563768318"],
+["AFURI Ramen + Dumpling","01-167","Japanese",2,25,4.0,99,""],
+["Menya Musashi","01-104","Japanese",2,20,3.4,334,"6563769519"],
+["Saboten","02-49","Japanese",3,32,4.4,217,"6565399832"],
+["Tempura-EN","02-111","Japanese",2,28,4.7,3383,"6562732088"],
+["Una Una","02-94","Japanese",3,32,4.2,571,"6562525918"],
+["Yakiniku Like","02-60","Hotpot & BBQ",2,25,4.7,1948,""],
+["Tajimaya Yakiniku / Suki-Ya KIN","01-102/103","Hotpot & BBQ",3,55,4.5,1680,"6563770070"],
+["Aburi-EN","01-159/160","Japanese",2,25,4.6,1473,"6562599603"],
+["Kei Kaisendon","02-136","Japanese",2,25,4.8,383,"6565189926"],
+["Tamago-EN","B2-27","Japanese",2,20,4.4,284,"6562648633"],
+["Monster Curry","02-126/129","Japanese",2,22,4.7,1554,"6562213308"],
+["Tokyo Shokudo","01-54","Japanese",2,22,3.6,206,"6562211880"],
+["Hokkaido-Ya","02-153","Japanese",2,18,3.7,485,"6563769440"],
+["Bornga","02-123/124","Korean",3,45,3.9,900,"6563768268"],
+["Paik's Bibim","02-125","Korean",1,15,3.7,317,"6563770696"],
+["Barossa Steak and Grill","01-161/162","Western",4,65,4.6,4311,"6562551855"],
+["Brotzeit German Bier Bar","01-149","Western",3,50,4.3,3372,"6562728815"],
+["Morganfield's","01-51A","Western",3,45,4.1,797,"6562250501"],
+["SERVUS German Burger Grill","01-57","Western",3,35,4.4,4246,"6588797848"],
+["Shake Shack","01-163/164","Western",2,22,4.6,2166,""],
+["ASTONS Specialities","02-113","Western",2,22,4.6,2176,"6562611557"],
+["Swensen's Unlimited","02-117","Western",3,50,4.6,7920,""],
+["Fish & Co.","02-116","Seafood",2,25,4.2,745,"6562243176"],
+["Marche VivoCity","03-14","Western",3,35,4.5,8685,"6563768226"],
+["Wine Connection Bistro","01-152/154","Western",3,45,4.2,1586,"6588650584"],
+["The Queen & Mangosteen","01-106/107","Western",3,40,4.2,1543,"6563769380"],
+["Tapas Club","01-98/99","Western",3,45,3.9,812,"6591554096"],
+["Poulet","01-175/177","Western",2,28,4.7,16444,"6562311598"],
+["Pizzakaya","01-157","Western",2,22,4.1,530,"6562249690"],
+["Milan Tei","01-167/168","Western",1,15,2.9,164,"6562616032"],
+["Thai Accent","02-143","Thai",3,35,4.2,863,"6563769282"],
+["Sanook Kitchen","B2-23C","Thai",2,20,4.7,1532,"6560506635"],
+["The Original Boat Noodle","02-150","Thai",1,15,3.1,220,"6562642150"],
+["Go-Ang Pratunam Chicken Rice","B2-30","Thai",1,15,4.7,4632,"6560506633"],
+["So Pho","01-171","Vietnamese",2,20,4.4,811,"6562521770"],
+["Mrs Pho","B2-29","Vietnamese",2,18,4.0,538,"6596440332"],
+["Penang Culture","B2-23E","Local & SEA",2,18,4.5,1728,"6569627172"],
+["Encik Tan","B2-45","Local & SEA",1,10,3.9,823,""],
+["Ayam Penyet President","B2-23F","Local & SEA",1,15,4.1,282,"6562663886"],
+["Jia Xiang Sarawak Kolo Mee","B2-38","Local & SEA",1,12,4.1,725,"6562720000"],
+["Food Republic","03-01","Local & SEA",1,12,4.2,6493,"6562760521"],
+["Dancing Crab","03-10","Seafood",4,70,4.5,1938,"6562227377"],
+["Green Common","01-169","Vegetarian",2,25,4.2,313,"6565135808"],
+["McDonald's","B2-44","Fast Food",1,10,4.1,1813,"6567773777"],
+["KFC","B2-32","Fast Food",1,10,3.9,865,""],
+["Burger King","B2-41","Fast Food",1,10,4.0,1525,""],
+["Jollibee","B2-42","Fast Food",1,10,4.0,1365,""],
+["4Fingers Crispy Chicken","02-120","Fast Food",1,14,4.6,422,"6569780482"],
+["MOS Burger","B2-33","Fast Food",1,12,3.9,21,"6562549124"],
+["Burgs","B2-29A","Fast Food",1,14,4.5,673,"6596666041"],
+["Wingstop","02-143","Fast Food",2,18,4.2,596,"6562653690"],
+["Toast Box","B2-54","Cafe & Quick",1,8,3.6,837,""],
+["The Soup Spoon +","B2-26A","Cafe & Quick",1,14,4.0,21,""],
+["Secret Recipe","02-108/109","Cafe & Quick",2,20,3.6,258,"6563769618"]
+].map((a,i)=>({id:i,name:a[0],unit:a[1],cuisine:a[2],tier:a[3],pax:a[4],rating:a[5],votes:a[6],tel:a[7]}));
+
+const CUISINES=[...new Set(R.map(r=>r.cuisine))].sort();
+const TIER=["","$","$$","$$$","$$$$"];
+const levelKey=u=>{const s=u.toUpperCase();return s.startsWith("B2")?0:parseInt(s.slice(0,2),10)||9};
+
+/* ---------------- HERO BADGES (abstract monogram marks) ---------------- */
+function badge(mono,c1,c2){
+  return `<svg viewBox="0 0 40 40" aria-hidden="true">
+    <circle cx="20" cy="20" r="18" fill="${c1}"/>
+    <circle cx="20" cy="20" r="18" fill="none" stroke="${c2}" stroke-width="3"/>
+    <text x="20" y="20" text-anchor="middle" dominant-baseline="central"
+      font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="bold"
+      fill="#fff" letter-spacing="-0.5">${mono}</text></svg>`;
+}
+
+/* ------------- HEROES -------------
+   Each hero shortlists by a rule that matches the character, then picks at
+   random from that shortlist, weighted towards the top. say() explains the
+   pick in the character's own voice, using the real numbers.              */
+let lastPick=null;
+
+function weightedPick(ranked,depth){
+  let pool=ranked.slice(0,Math.max(1,Math.min(depth,ranked.length)));
+  if(pool.length>1&&lastPick!=null){
+    const f=pool.filter(r=>r.id!==lastPick);
+    if(f.length)pool=f;
+  }
+  const w=pool.map((_,i)=>pool.length-i);
+  let n=Math.random()*w.reduce((a,b)=>a+b,0);
+  for(let i=0;i<pool.length;i++){n-=w[i];if(n<=0)return pool[i]}
+  return pool[pool.length-1];
+}
+function plainPick(pool){
+  let p=pool;
+  if(p.length>1&&lastPick!=null){const f=p.filter(r=>r.id!==lastPick);if(f.length)p=f}
+  return p[Math.floor(Math.random()*p.length)];
+}
+const isFeast=r=>r.cuisine==="Hotpot & BBQ"||r.pax>=50;
+const isQuick=r=>["Fast Food","Cafe & Quick","Local & SEA"].includes(r.cuisine)||r.pax<=15;
+const isUnderdog=r=>r.cuisine==="Local & SEA"||r.votes<800;
+
+const HEROES=[
+ {n:"Doctor Strange", m:"DS", c1:"#6B33B8", c2:"#E0A013",
+  d:"Sees every outcome at once, and refuses to explain the choice. Pure random.",
+  f:l=>plainPick(l),
+  say:r=>`I looked forward in time at fourteen million, six hundred and five futures. You eat at ${r.name} in this one.`},
+
+ {n:"Tony Stark", m:"TS", c1:"#B81F1F", c2:"#E0A013",
+  d:"Money is not a consideration. Picks the most expensive thing on your filter.",
+  f:l=>weightedPick([...l].sort((a,b)=>b.pax-a.pax||b.rating-a.rating),5),
+  say:r=>`About $${r.pax} a head at ${r.name}. That's not the expensive part of my day. #${r.unit} — go.`},
+
+ {n:"Captain America", m:"CA", c1:"#1B2A5B", c2:"#D62828",
+  d:"Loyal to a fault. Sends you back to wherever this family goes most.",
+  f:l=>{const v=l.filter(r=>count(r.id));
+        return v.length ? weightedPick([...v].sort((a,b)=>count(b.id)-count(a.id)||b.rating-a.rating),3)
+                        : weightedPick([...l].sort((a,b)=>b.rating-a.rating||b.votes-a.votes),5)},
+  say:r=>{const c=count(r.id);
+    return c ? `You've eaten at ${r.name} ${c} time${c>1?"s":""} already. Some things are worth being loyal to. I'm with you till the end of the line.`
+             : `No history to be loyal to yet. Start with the best on the board — ${r.name}, ${r.rating.toFixed(1)}★. We'll build the record from there.`}},
+
+ {n:"Thor", m:"TH", c1:"#1F6FB8", c2:"#B8B8C4",
+  d:"Feasting only. Buffets, hotpot, BBQ and big shared tables.",
+  f:l=>{const g=l.filter(isFeast);
+        return weightedPick([...(g.length?g:l)].sort((a,b)=>b.pax-a.pax||b.rating-a.rating),6)},
+  say:r=>`${r.name}. A proper feast — reckon on $${r.pax} a head, and bring the whole hall. ANOTHER!`},
+
+ {n:"Hulk", m:"HK", c1:"#2E7D32", c2:"#6B33B8",
+  d:"Will not wait. Quick counters, food court and no-booking spots only.",
+  f:l=>{const g=l.filter(isQuick);
+        return weightedPick([...(g.length?g:l)].sort((a,b)=>a.pax-b.pax||b.rating-a.rating),7)},
+  say:r=>`${r.name}. #${r.unit}. $${r.pax}. No booking, no waiting, no menu discussion. HULK EAT NOW.`},
+
+ {n:"Spider-Man", m:"SM", c1:"#C81F2B", c2:"#1B4FA8",
+  d:"Friendly neighbourhood pick. Small local spots the family has never tried.",
+  f:l=>{const n=l.filter(r=>isUnderdog(r)&&!count(r.id));
+        const b=n.length?n:l.filter(isUnderdog);
+        const g=b.length?b:l;
+        return weightedPick([...g].sort((a,b)=>a.votes-b.votes||b.rating-a.rating),7)},
+  say:r=>`${r.name} — $${r.pax} a head, only ${r.votes.toLocaleString()} reviews, and you've never been. Somebody's gotta look out for the little guy.`}
+];
+let hero=0;
+
+/* ---------------- STORAGE ---------------- */
+const KEY="kongfam:vivocity:visits";
+const MEM={};
+const Store={
+  async get(k){
+    if(window.storage){try{const r=await window.storage.get(k);return r?r.value:null}catch(e){}}
+    try{return localStorage.getItem(k)}catch(e){return MEM[k]??null}
+  },
+  async set(k,v){
+    if(window.storage){try{await window.storage.set(k,v);return true}catch(e){}}
+    try{localStorage.setItem(k,v);return true}catch(e){MEM[k]=v;return false}
+  }
+};
+let LOG=[];
+const save=()=>Store.set(KEY,JSON.stringify(LOG));
+const count=id=>LOG.filter(e=>e.id===id).length;
+
+/* ---------------- STATE ---------------- */
+let picked=new Set(), qStr="", sortBy="rating";
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const stars=v=>`<span class="stars">★★★★★<i style="width:${(v/5*100).toFixed(1)}%">★★★★★</i></span>`;
+
+function filtered(){
+  let l=R.filter(r=>
+    (!picked.size||picked.has(r.cuisine)) &&
+    (!qStr||(r.name+" "+r.cuisine+" "+r.unit).toLowerCase().includes(qStr)));
+  const s={rating:(a,b)=>b.rating-a.rating||b.votes-a.votes,
+           reviews:(a,b)=>b.votes-a.votes,
+           cheap:(a,b)=>a.pax-b.pax||b.rating-a.rating,
+           posh:(a,b)=>b.pax-a.pax,
+           az:(a,b)=>a.name.localeCompare(b.name),
+           level:(a,b)=>levelKey(a.unit)-levelKey(b.unit)||a.unit.localeCompare(b.unit)}[sortBy];
+  return l.sort(s);
+}
+
+function actions(r,cls){
+  const t=r.tel?`<a class="btn call" href="tel:+${r.tel}">Call to reserve</a>`
+               :`<span class="btn call off">No direct line</span>`;
+  return `${t}<button class="btn log" data-log="${r.id}">${cls}</button>`;
+}
+
+function render(){
+  const l=filtered(), g=$("#grid");
+  $("#count").textContent=l.length+" of "+R.length+" outlets shown";
+  $("#empty").style.display=l.length?"none":"block";
+  g.innerHTML=l.map(r=>{
+    const c=count(r.id);
+    return `<article class="card${c?" eaten":""}">
+      ${c?`<div class="tally">Dined ×${c}</div>`:""}
+      <h3 class="name">${esc(r.name)}</h3>
+      <div class="meta">${esc(r.cuisine)} &nbsp;·&nbsp; <i>#${esc(r.unit)}</i></div>
+      <div class="rate">
+        <div class="num">${r.rating.toFixed(1)}</div>
+        <div class="col">${stars(r.rating)}<small>${r.votes.toLocaleString()} Google reviews</small></div>
+      </div>
+      <div class="price"><small>Est. per pax</small><b>$${r.pax}</b><em>${TIER[r.tier]}</em></div>
+      <div class="acts">${actions(r,c?"Dined in again":"I dined in")}</div>
+    </article>`;
+  }).join("");
+}
+
+function renderLog(){
+  const e=$("#entries");
+  if(!LOG.length){e.innerHTML='<div class="empty">Nothing logged yet. Eat something, then tap “I dined in”.</div>';}
+  else{
+    e.innerHTML=LOG.slice().reverse().map(x=>{
+      const d=new Date(x.t);
+      const s=d.toLocaleDateString("en-SG",{day:"2-digit",month:"short",year:"numeric"})+", "+
+              d.toLocaleTimeString("en-SG",{hour:"2-digit",minute:"2-digit",hour12:true});
+      return `<div class="entry"><b>${esc(x.name)}</b><time>${s}</time>
+              <button data-del="${x.t}" aria-label="Remove entry">×</button></div>`;
+    }).join("");
+  }
+  const uniq=new Set(LOG.map(x=>x.id));
+  $("#sTotal").textContent=LOG.length;
+  $("#sUnique").textContent=uniq.size;
+  $("#sLeft").textContent=R.length-uniq.size;
+  let top="—",best=0;
+  uniq.forEach(id=>{const c=count(id);if(c>best){best=c;top=R[id].name}});
+  $("#sTop").textContent=best>1?top:"—";
+}
+
+let tt;
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");
+  clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2200)}
+
+/* ---------------- CHIPS & HEROES ---------------- */
+$("#chips").innerHTML=`<button class="chip" data-c="" aria-pressed="true">All cuisines</button>`+
+  CUISINES.map(c=>`<button class="chip" data-c="${esc(c)}" aria-pressed="false">${esc(c)}</button>`).join("");
+$("#heroes").innerHTML=HEROES.map((h,i)=>
+  `<button class="hero" data-h="${i}" aria-pressed="${i===0}">${badge(h.m,h.c1,h.c2)}<b>${esc(h.n)}</b></button>`).join("");
+
+$("#chips").onclick=e=>{
+  const b=e.target.closest(".chip");if(!b)return;
+  const c=b.dataset.c;
+  if(!c)picked.clear(); else picked.has(c)?picked.delete(c):picked.add(c);
+  [...$("#chips").children].forEach(x=>
+    x.setAttribute("aria-pressed", x.dataset.c ? picked.has(x.dataset.c) : !picked.size));
+  render();
+};
+$("#heroes").onclick=e=>{
+  const b=e.target.closest(".hero");if(!b)return;
+  hero=+b.dataset.h;
+  [...$("#heroes").children].forEach((x,i)=>x.setAttribute("aria-pressed",i===hero));
+  $("#heroName").textContent=HEROES[hero].n;
+  $("#heroNote").textContent=HEROES[hero].d;
+  $("#verdict").classList.remove("on");
+};
+$("#q").oninput=e=>{qStr=e.target.value.trim().toLowerCase();render()};
+$("#sort").onchange=e=>{sortBy=e.target.value;render()};
+
+/* ---------------- SNAP ---------------- */
+$("#snap").onclick=()=>{
+  const l=filtered();
+  if(!l.length){toast("Nothing matches those filters");return}
+  const H=HEROES[hero];
+  const v=$("#verdict");v.classList.add("on","rolling");
+  $("#vHead").innerHTML=badge(H.m,H.c1,H.c2)+"<b>"+esc(H.n)+" picks</b>";
+  const spin=setInterval(()=>{$("#vName").textContent=l[Math.floor(Math.random()*l.length)].name},60);
+  setTimeout(()=>{
+    clearInterval(spin);v.classList.remove("rolling");
+    const r=HEROES[hero].f(l);
+    lastPick=r.id;
+    $("#vName").textContent=r.name;
+    $("#vQuote").textContent=H.say(r);
+    $("#vMeta").textContent=`#${r.unit} · ${r.cuisine} · ${r.rating.toFixed(1)}★ from ${r.votes.toLocaleString()} Google reviews · about $${r.pax} per pax`;
+    $("#vActs").innerHTML=actions(r,count(r.id)?"Dined in again":"I dined in");
+  },820);
+};
+
+/* ---------------- LOGGING ---------------- */
+document.addEventListener("click",async e=>{
+  const b=e.target.closest("[data-log]");
+  if(b){
+    const r=R[+b.dataset.log];
+    LOG.push({id:r.id,name:r.name,t:Date.now()});
+    const ok=await save();
+    renderLog();render();
+    if($("#verdict").classList.contains("on")){
+      const cur=$("#vName").textContent;
+      const m=R.find(x=>x.name===cur);
+      if(m)$("#vActs").innerHTML=actions(m,"Dined in again");
+    }
+    toast(ok?"Logged: "+r.name:"Logged (this session only)");
+    return;
+  }
+  const d=e.target.closest("[data-del]");
+  if(d){
+    LOG=LOG.filter(x=>String(x.t)!==d.dataset.del);
+    await save();renderLog();render();toast("Entry removed");
+  }
+});
+$("#undo").onclick=async()=>{
+  if(!LOG.length){toast("Log is already empty");return}
+  const g=LOG.pop();await save();renderLog();render();toast("Removed: "+g.name);
+};
+$("#wipe").onclick=async()=>{
+  if(!LOG.length){toast("Log is already empty");return}
+  if(!confirm("Clear the whole log? This cannot be undone."))return;
+  LOG=[];await save();renderLog();render();toast("Log cleared");
+};
+$("#exp").onclick=async()=>{
+  if(!LOG.length){toast("Nothing to copy");return}
+  const txt="KONG FAM — VivoCity dining log\n"+LOG.slice().reverse().map(x=>
+    new Date(x.t).toLocaleString("en-SG")+"  —  "+x.name).join("\n");
+  try{await navigator.clipboard.writeText(txt);toast("Log copied")}
+  catch(e){prompt("Copy your log:",txt)}
+};
+
+/* ---------------- BOOT ---------------- */
+(async()=>{
+  const raw=await Store.get(KEY);
+  if(raw){try{LOG=JSON.parse(raw)||[]}catch(e){LOG=[]}}
+  renderLog();render();
+})();
+</script>
+
+</body>
+</html>
