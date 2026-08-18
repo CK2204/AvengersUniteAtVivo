@@ -85,9 +85,13 @@
   .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--red)}
   .card.eaten::before{background:var(--teal)}
   .card.eaten{border-color:#9BD3CD}
-  .tally{position:absolute;top:12px;right:14px;font-size:10px;font-weight:900;letter-spacing:.12em;
-    color:var(--teal);text-transform:uppercase}
-  .name{font-size:17px;font-weight:900;letter-spacing:-.015em;margin:0 62px 6px 0;line-height:1.15;color:var(--navy)}
+  .del{position:absolute;top:9px;right:10px;z-index:2;width:26px;height:26px;padding:0;
+    cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:50%;
+    font-family:var(--font);font-size:16px;line-height:1;color:var(--mute)}
+  .del:hover{background:#C4372F;border-color:#C4372F;color:#fff}
+  .tally{display:inline-block;font-size:9.5px;font-weight:900;letter-spacing:.13em;
+    color:var(--teal);text-transform:uppercase;margin-left:2px;vertical-align:middle}
+  .name{font-size:17px;font-weight:900;letter-spacing:-.015em;margin:0 32px 6px 0;line-height:1.15;color:var(--navy)}
   .meta{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:12px}
   .meta i{font-style:normal;color:var(--red);font-weight:700}
 
@@ -110,8 +114,6 @@
     font-family:var(--font);font-size:11px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
     padding:11px 6px;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:2px}
   .btn:hover{border-color:var(--navy)}
-  .btn.call{border-color:var(--navy);color:var(--navy)}
-  .btn.call.off{opacity:.4;pointer-events:none;border-color:var(--line);color:var(--mute)}
   .btn.log{background:var(--red);border-color:var(--red);color:#fff}
   .btn.log:hover{background:#B81F1F;border-color:#B81F1F}
   .empty{padding:40px 0;color:var(--mute);text-align:center;font-size:13px}
@@ -160,10 +162,59 @@
   .winner h3{margin:6px 0 0;font-size:23px;font-weight:900;letter-spacing:-.02em;color:var(--navy)}
   .winner p{margin:6px 0 13px;color:var(--mute);font-size:12.5px}
   .btn.wheel{border-color:var(--gold);color:#8A6100}
+  /* character pill on cards */
+  .chrline{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:11px}
+  .chr{display:inline-flex;align-items:center;gap:6px;
+    padding:4px 9px 4px 5px;border-radius:20px;background:var(--wash);border:1px solid var(--line-2)}
+  .chr svg{width:17px;height:17px;flex:0 0 auto}
+  .chr b{font-size:9.5px;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+  /* edit mode */
+  .editbar{margin-top:12px;background:#FFF7E8;border:1px solid var(--gold);padding:16px 15px;display:none}
+  .editbar.on{display:block}
+  .editbar h4{margin:0 0 4px;font-size:13px;font-weight:900;letter-spacing:.1em;
+    text-transform:uppercase;color:#8A6100}
+  .editbar p{margin:0 0 13px;font-size:12px;color:#8A6100;line-height:1.5}
+  .frm{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+  .frm label{display:block;font-size:9.5px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:#8A6100;margin-bottom:4px}
+  .frm input,.frm select{width:100%;font-family:var(--font);font-size:13px;color:var(--ink);
+    background:#fff;border:1px solid var(--line);padding:9px 10px;border-radius:2px;-webkit-appearance:none}
+  .frm input:focus,.frm select:focus{outline:2px solid var(--gold);outline-offset:1px}
+  .frm .wide{grid-column:1/-1}
+  .addgo{margin-top:10px;width:100%;padding:13px;cursor:pointer;font-family:var(--font);
+    font-size:13px;font-weight:900;letter-spacing:.16em;text-transform:uppercase;
+    color:#231A00;background:var(--gold);border:0}
+  .addgo:hover{background:#C98D0A}
+  .binned{margin-top:15px;border-top:1px solid var(--gold);padding-top:13px}
+  .binned .w-list{margin:0}
+  .card.custom::before{background:var(--purple)}
+  .flag{position:absolute;bottom:10px;right:22px;font-size:9px;font-weight:900;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--purple)}
+
+  /* popup */
+  .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+    padding:18px;background:rgba(16,19,28,.62)}
+  .modal.on{display:flex}
+  .mbox{background:#fff;max-width:430px;width:100%;border-top:6px solid var(--red);
+    box-shadow:0 18px 50px rgba(16,19,28,.35);padding:24px 22px 20px;position:relative;
+    animation:pop .28s cubic-bezier(.2,1.2,.4,1)}
+  @keyframes pop{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+  .mbox .x{position:absolute;top:9px;right:11px;background:none;border:0;cursor:pointer;
+    font-family:var(--font);font-size:24px;line-height:1;color:var(--mute);padding:4px}
+  .mbox .x:hover{color:var(--ink)}
+  .mcrest{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .mcrest svg{width:62px;height:62px;margin-bottom:11px}
+  .mverdict{font-size:clamp(19px,5vw,25px);font-weight:900;text-transform:uppercase;
+    letter-spacing:-.02em;line-height:1.1;margin:0}
+  .mname{font-size:19px;font-weight:900;color:var(--navy);margin:13px 0 0;letter-spacing:-.015em}
+  .mquote{margin:12px 0 0;padding:12px 14px;background:var(--wash);border-left:3px solid var(--red);
+    font-size:14px;line-height:1.5;text-align:left;color:var(--ink);width:100%}
+  .mmeta{margin:11px 0 15px;font-size:11.5px;color:var(--mute);text-align:left;width:100%}
+  .mbox .acts{width:100%}
   .btn.wheel.on{background:var(--gold);border-color:var(--gold);color:#231A00}
 
   /* ---------- LOG ---------- */
-  .log-sec{margin-top:46px;border-top:2px solid var(--line);padding-top:26px}
+  .log-sec{margin-top:30px;border-top:2px solid var(--line);padding-top:24px}
   h2{font-size:clamp(23px,5.2vw,34px);font-weight:900;text-transform:uppercase;
     letter-spacing:-.025em;margin:0 0 4px;color:var(--navy)}
   h2 span{color:var(--red)}
@@ -204,7 +255,7 @@
   <h1>VivoCity<em>Dining Codex</em></h1>
   <p class="sub">
     Every food outlet at 1 HarbourFront Walk, in one place. Filter by cuisine, read the
-    <b>Google score</b> on the card itself, call to reserve, then tap <b>I dined in</b> to log the visit.
+    <b>Google score</b> on the card itself, shortlist it onto the wheel, then tap <b>Attacked today!</b> once you've eaten there.
     Ratings and unit numbers pulled from Google Places on 17 Aug 2026 — per-pax figures are
     indicative estimates, not quoted prices.
   </p>
@@ -212,7 +263,7 @@
   <div class="score">
     <div><b id="sTotal">0</b><small>Meals logged</small></div>
     <div><b id="sUnique">0</b><small>Places tried</small></div>
-    <div><b id="sLeft">135</b><small>Still to conquer</small></div>
+    <div><b id="sChar">—</b><small>Family eats like</small></div>
     <div><b id="sTop">—</b><small>Family favourite</small></div>
   </div>
 </header>
@@ -244,6 +295,17 @@
   </div>
 </section>
 
+<section class="log-sec">
+  <h2>Mission <span>log</span></h2>
+  <p class="log-note">Saved the moment you tap <b>Attacked today!</b>. Newest first.</p>
+  <div class="entries" id="entries"></div>
+  <div class="log-tools">
+    <button class="tool" id="undo">Undo last entry</button>
+    <button class="tool" id="wipe">Clear whole log</button>
+    <button class="tool" id="exp">Copy log as text</button>
+  </div>
+</section>
+
 <section class="controls">
   <div class="bar">
     <input type="search" id="q" placeholder="Search a restaurant or cuisine…" aria-label="Search restaurants">
@@ -255,37 +317,61 @@
       <option value="az">Sort: A–Z</option>
       <option value="level">Sort: By mall level</option>
     </select>
+    <button class="chip" id="editToggle" aria-pressed="false" style="padding:11px 14px">Add new shop</button>
   </div>
   <div class="chips" id="chips"></div>
+
+  <div class="editbar" id="editbar">
+    <h4>Add a new shop</h4>
+    <p>The mall changes and no website will tell us reliably. Add what opens, remove what closes.
+       Everything you change is saved on this device — the built-in list underneath is never touched,
+       so you can always restore something you removed by mistake.</p>
+    <div class="frm">
+      <div class="wide"><label for="fName">Restaurant name</label><input id="fName" placeholder="e.g. Sushiro"></div>
+      <div><label for="fUnit">Unit number</label><input id="fUnit" placeholder="e.g. 02-114"></div>
+      <div><label for="fCuisine">Cuisine</label><select id="fCuisine"></select></div>
+      <div><label for="fPax">Est. $ per pax</label><input id="fPax" type="number" min="1" max="500" placeholder="25"></div>
+      <div><label for="fTel">Phone (optional)</label><input id="fTel" type="tel" placeholder="6561234567"></div>
+      <div><label for="fRating">Rating (optional)</label><input id="fRating" type="number" min="0" max="5" step="0.1" placeholder="4.3"></div>
+      <div><label for="fVotes">Review count (optional)</label><input id="fVotes" type="number" min="0" placeholder="120"></div>
+    </div>
+    <button class="addgo" id="addGo">Add to directory</button>
+    <div class="binned" id="binned"></div>
+  </div>
+
   <div class="count" id="count"></div>
 </section>
 
 <div class="grid" id="grid"></div>
 <div class="empty" id="empty" style="display:none">No outlet matches that. Clear a filter and try again.</div>
 
-<section class="log-sec">
-  <h2>Mission <span>log</span></h2>
-  <p class="log-note">Saved on this device the moment you tap <b>I dined in</b>. Newest first.</p>
-  <div class="entries" id="entries"></div>
-  <div class="log-tools">
-    <button class="tool" id="undo">Undo last entry</button>
-    <button class="tool" id="wipe">Clear whole log</button>
-    <button class="tool" id="exp">Copy log as text</button>
-  </div>
-</section>
+
 
 <footer>
-  135 outlets · VivoCity, 1 HarbourFront Walk, Singapore 098585 · HarbourFront MRT<br>
+  <span id="fCount">135</span> outlets · VivoCity, 1 HarbourFront Walk, Singapore 098585 · HarbourFront MRT<br>
   Ratings, review counts, unit numbers and phone lines from Google Places, retrieved 17 Aug 2026 — these change over time, so treat them as a guide rather than gospel.
   Per-pax figures are rough estimates for a typical order, excluding drinks, GST and service charge. Always call ahead: not every outlet takes reservations.<br>
   Built for the Kong family. The wheel, the visit log and the shortlist all live in this browser only.
 </footer>
 </div>
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mVerdict">
+  <div class="mbox" id="mBox">
+    <button class="x" id="mClose" aria-label="Close">×</button>
+    <div class="mcrest">
+      <div id="mCrest"></div>
+      <h2 class="mverdict" id="mVerdict"></h2>
+      <p class="mname" id="mName"></p>
+      <div class="mquote" id="mQuote"></div>
+      <div class="mmeta" id="mMeta"></div>
+      <div class="acts" id="mActs"></div>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
 /* ---------------- DATA ---------------- */
-const R=[
+let R=[
 ["4Fingers Crispy Chicken", "02-120", "Fast Food", 1, 14, 4.6, 422, "6569780482"],
 ["Aburi-EN", "01-159/160", "Japanese", 2, 25, 4.6, 1473, "6562599603"],
 ["AFURI Ramen + Dumpling", "01-167", "Japanese", 2, 25, 4.0, 99, ""],
@@ -423,7 +509,22 @@ const R=[
 ["Yakiniku Like", "02-60", "Hotpot & BBQ", 2, 25, 4.7, 1948, ""]
 ].map((a,i)=>({id:i,name:a[0],unit:a[1],cuisine:a[2],tier:a[3],pax:a[4],rating:a[5],votes:a[6],tel:a[7]}));
 
-const CUISINES=[...new Set(R.map(r=>r.cuisine))].sort();
+const BASE=R;
+const EKEY="kongfam:vivocity:edits";
+let CUSTOM=[], REMOVED=new Set(), NEXTID=1000;
+/* REG resolves any id ever used, including removed ones, so old log entries
+   still show a name. R is the live, visible list.                          */
+let REG=new Map(), CUISINES=[];
+function rebuild(){
+  REG=new Map();
+  BASE.concat(CUSTOM).forEach(r=>REG.set(r.id,r));
+  R=BASE.concat(CUSTOM).filter(r=>!REMOVED.has(r.id));
+  CUISINES=[...new Set(R.map(r=>r.cuisine))].sort();
+  const fc=document.querySelector("#fCount");if(fc)fc.textContent=R.length;
+}
+const byId=id=>REG.get(id);
+const saveEdits=()=>Store.set(EKEY,JSON.stringify({removed:[...REMOVED],custom:CUSTOM,next:NEXTID}));
+rebuild();
 const TIER=["","$","$$","$$$","$$$$"];
 const levelKey=u=>{const s=u.toUpperCase();return s.startsWith("B2")?0:parseInt(s.slice(0,2),10)||9};
 
@@ -449,7 +550,7 @@ const saveWheel=()=>Store.set(WKEY,JSON.stringify(WHEEL));
 const count=id=>LOG.filter(e=>e.id===id).length;
 
 /* ---------------- STATE ---------------- */
-let picked=new Set(), qStr="", sortBy="rating";
+let picked=new Set(), qStr="", sortBy="rating", editing=false;
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const stars=v=>`<span class="stars">★★★★★<i style="width:${(v/5*100).toFixed(1)}%">★★★★★</i></span>`;
@@ -467,37 +568,37 @@ function filtered(){
   return l.sort(s);
 }
 
-function actions(r,cls){
-  const t=r.tel?`<a class="btn call" href="tel:+${r.tel}">Call to reserve</a>`
-               :`<span class="btn call off">No direct line</span>`;
+function actions(r){
   const on=WHEEL.includes(r.id);
   const w=`<button class="btn wheel${on?" on":""}" data-wheel="${r.id}">${on?"On the wheel":"Add to wheel"}</button>`;
-  return `${w}${t}<button class="btn log" data-log="${r.id}">${cls}</button>`;
+  return `${w}<button class="btn log" data-log="${r.id}">Attacked today!</button>`;
 }
 
 function render(){
   const l=filtered(), g=$("#grid");
-  $("#count").textContent=l.length+" of "+R.length+" outlets shown";
+  $("#count").textContent=l.length+" of "+R.length+" outlets shown"+(editing?" · editing":"");
   $("#empty").style.display=l.length?"none":"block";
   g.innerHTML=l.map(r=>{
     const c=count(r.id);
-    return `<article class="card${c?" eaten":""}">
-      ${c?`<div class="tally">Dined ×${c}</div>`:""}
+    return `<article class="card${c?" eaten":""}${r.id>=1000?" custom":""}">
+      <button class="del" data-kill="${r.id}" aria-label="Delete ${esc(r.name)} from the directory" title="Delete this outlet">×</button>
       <h3 class="name">${esc(r.name)}</h3>
       <div class="meta">${esc(r.cuisine)} &nbsp;·&nbsp; <i>#${esc(r.unit)}</i></div>
+      <div class="chrline">${(()=>{const ch=charOf(r);return `<span class="chr">${crest(ch.m,ch.c,ch.c2)}<b style="color:${ch.c}">${esc(ch.n)}</b></span>`})()}${c?`<span class="tally">✓ attacked ${c}×</span>`:""}</div>
       <div class="rate">
         <div class="num">${r.rating.toFixed(1)}</div>
         <div class="col">${stars(r.rating)}<small>${r.votes.toLocaleString()} Google reviews</small></div>
       </div>
       <div class="price"><small>Est. per pax</small><b>$${r.pax}</b><em>${TIER[r.tier]}</em></div>
-      <div class="acts">${actions(r,c?"Dined in again":"I dined in")}</div>
+      <div class="acts">${actions(r)}</div>
+      ${r.id>=1000?`<div class="flag">Added by you</div>`:""}
     </article>`;
   }).join("");
 }
 
 function renderLog(){
   const e=$("#entries");
-  if(!LOG.length){e.innerHTML='<div class="empty">Nothing logged yet. Eat something, then tap “I dined in”.</div>';}
+  if(!LOG.length){e.innerHTML='<div class="empty">Nothing attacked yet. Eat somewhere, then tap “Attacked today!”.</div>';}
   else{
     e.innerHTML=LOG.slice().reverse().map(x=>{
       const d=new Date(x.t);
@@ -510,9 +611,13 @@ function renderLog(){
   const uniq=new Set(LOG.map(x=>x.id));
   $("#sTotal").textContent=LOG.length;
   $("#sUnique").textContent=uniq.size;
-  $("#sLeft").textContent=R.length-uniq.size;
+  const tal={};
+  LOG.forEach(x=>{const r=byId(x.id);if(r){const c=charOf(r);tal[c.k]=(tal[c.k]||0)+1}});
+  let ck=null,cb=0;
+  Object.entries(tal).forEach(([k,v])=>{if(v>cb){cb=v;ck=k}});
+  $("#sChar").textContent=ck?CHARS.find(c=>c.k===ck).n.replace("Captain America","Cap").replace("Doctor Strange","Strange"):"—";
   let top="—",best=0;
-  uniq.forEach(id=>{const c=count(id);if(c>best){best=c;top=R[id].name}});
+  uniq.forEach(id=>{const c=count(id);const o=byId(id);if(o&&c>best){best=c;top=o.name}});
   $("#sTop").textContent=best>1?top:"—";
 }
 
@@ -521,8 +626,13 @@ function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");
   clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("on"),2200)}
 
 /* ---------------- CHIPS ---------------- */
-$("#chips").innerHTML=`<button class="chip" data-c="" aria-pressed="true">All cuisines</button>`+
-  CUISINES.map(c=>`<button class="chip" data-c="${esc(c)}" aria-pressed="false">${esc(c)}</button>`).join("");
+function renderChips(){
+  $("#chips").innerHTML=`<button class="chip" data-c="" aria-pressed="${!picked.size}">All cuisines</button>`+
+    CUISINES.map(c=>`<button class="chip" data-c="${esc(c)}" aria-pressed="${picked.has(c)}">${esc(c)}</button>`).join("");
+  const sel=$("#fCuisine");
+  if(sel)sel.innerHTML=CUISINES.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join("");
+}
+renderChips();
 $("#chips").onclick=e=>{
   const b=e.target.closest(".chip");if(!b)return;
   const c=b.dataset.c;
@@ -534,13 +644,89 @@ $("#chips").onclick=e=>{
 $("#q").oninput=e=>{qStr=e.target.value.trim().toLowerCase();render()};
 $("#sort").onchange=e=>{sortBy=e.target.value;render()};
 
+/* ---------------- CHARACTERS ----------------
+   Every outlet is claimed by exactly one character, by a fixed rule, so the
+   verdict is the same every time you land on it. Rules run in order; first
+   match wins.                                                              */
+function crest(mono,c1,c2){
+  return `<svg viewBox="0 0 40 40" aria-hidden="true">
+    <circle cx="20" cy="20" r="18" fill="${c1}"/>
+    <circle cx="20" cy="20" r="18" fill="none" stroke="${c2}" stroke-width="3"/>
+    <text x="20" y="20" text-anchor="middle" dominant-baseline="central"
+      font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="bold"
+      fill="#fff" letter-spacing="-0.5">${mono}</text></svg>`;
+}
+const CHARS=[
+ {k:"strange", n:"Doctor Strange", m:"DS", c:"#6B33B8", c2:"#E0A013",
+  v:"Doctor Strange has foreseen this",
+  test:r=>r.votes<100,
+  lines:[r=>`Only ${r.votes} review${r.votes===1?"":"s"} in this timeline. Almost nobody has been. That is precisely the point.`,
+         r=>`${r.votes} review${r.votes===1?"":"s"}. You are walking into the unknown, and I have chosen not to tell you how it ends.`,
+         r=>`An obscure corner of the mall at #${r.unit}. The multiverse is vast. So is B2.`]},
+
+ {k:"stark", n:"Tony Stark", m:"TS", c:"#B81F1F", c2:"#E0A013",
+  v:"Tony Stark approves",
+  test:r=>r.pax>=50,
+  lines:[r=>`About $${r.pax} a head. That's not the expensive part of my day. #${r.unit} — go.`,
+         r=>`$${r.pax} per pax. If you're checking the bill, you've already lost the evening.`,
+         r=>`${r.rating.toFixed(1)}★ and $${r.pax} a head. Genius, billionaire, and yes, I'm paying.`]},
+
+ {k:"thor", n:"Thor", m:"TH", c:"#1F6FB8", c2:"#B8B8C4",
+  v:"Thor approves",
+  test:r=>r.cuisine==="Hotpot & BBQ"||r.pax>=35,
+  lines:[r=>`A proper feast — reckon on $${r.pax} a head, and bring the whole hall. ANOTHER!`,
+         r=>`${r.cuisine} at #${r.unit}. This is a table you do not leave quickly. ANOTHER!`,
+         r=>`$${r.pax} each and no small plates in sight. Midgard does know how to eat.`]},
+
+ {k:"hulk", n:"Hulk", m:"HK", c:"#2E7D32", c2:"#6B33B8",
+  v:"Hulk approves",
+  test:r=>["Fast Food","Snacks","Bubble Tea & Drinks"].includes(r.cuisine)||r.pax<=12,
+  lines:[r=>`#${r.unit}. $${r.pax}. No booking, no waiting, no menu discussion. HULK EAT NOW.`,
+         r=>`$${r.pax}. Counter. Queue. Done. HULK NOT READ MENU.`,
+         r=>`Fast. Cheap. #${r.unit}. HULK APPROVE.`]},
+
+ {k:"spidey", n:"Spider-Man", m:"SM", c:"#C81F2B", c2:"#1B4FA8",
+  v:"Spider-Man approves",
+  test:r=>r.cuisine==="Local & SEA"||r.votes<700,
+  lines:[r=>`$${r.pax} a head and only ${r.votes.toLocaleString()} reviews. Somebody's gotta look out for the little guy.`,
+         r=>`Small place, #${r.unit}, ${r.rating.toFixed(1)}★. Friendly neighbourhood pick — no cape required.`,
+         r=>`${r.votes.toLocaleString()} review${r.votes===1?"":"s"} is nothing for how good this is. Support your local, yeah?`]},
+
+ {k:"cap", n:"Captain America", m:"CA", c:"#1B2A5B", c2:"#D62828",
+  v:"Captain America approves",
+  test:()=>true,
+  lines:[r=>`${r.rating.toFixed(1)}★ from ${r.votes.toLocaleString()} review${r.votes===1?"":"s"}. That many people don't agree by accident.`,
+         r=>`Solid, proven, been there a while. Some things are worth being loyal to.`,
+         r=>`#${r.unit}, ${r.rating.toFixed(1)}★. No surprises, and that's the whole appeal. I can do this all day.`]}
+];
+const charOf=r=>CHARS.find(c=>c.test(r));
+const lineFor=(c,r)=>c.lines[Math.floor(Math.random()*c.lines.length)](r);
+
+function showVerdict(r){
+  const c=charOf(r);
+  $("#mBox").style.borderTopColor=c.c;
+  $("#mCrest").innerHTML=crest(c.m,c.c,c.c2);
+  $("#mVerdict").textContent=c.v.toUpperCase()+"!";
+  $("#mVerdict").style.color=c.c;
+  $("#mName").textContent=r.name;
+  $("#mQuote").textContent=lineFor(c,r);
+  $("#mQuote").style.borderLeftColor=c.c;
+  $("#mMeta").textContent=`#${r.unit} · ${r.cuisine} · ${r.rating.toFixed(1)}★ from ${r.votes.toLocaleString()} Google reviews · about $${r.pax} per pax`;
+  $("#mActs").innerHTML=actions(r);
+  $("#modal").classList.add("on");
+}
+const closeModal=()=>$("#modal").classList.remove("on");
+$("#mClose").onclick=closeModal;
+$("#modal").onclick=e=>{if(e.target.id==="modal")closeModal()};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
+
 /* ---------------- WHEEL ---------------- */
 const WCOL=["#D62828","#1B2A5B","#E0A013","#0E9B8E","#6B33B8","#B85C00",
             "#2E7D32","#0E5AA8","#A31545","#4A5A2B","#7A2E8E","#00707A"];
 const MAXW=12;
 let spinning=false, rot=0;
 
-function wheelSet(){return WHEEL.map(id=>R[id]).filter(Boolean)}
+function wheelSet(){return WHEEL.map(id=>byId(id)).filter(r=>r&&!REMOVED.has(r.id))}
 
 function drawWheel(){
   const w=wheelSet(), n=w.length, svg=$("#wheelSvg"), C=150, RAD=138;
@@ -596,7 +782,7 @@ async function toggleWheel(id){
   if(i>-1){WHEEL.splice(i,1);toast("Removed from wheel")}
   else{
     if(WHEEL.length>=MAXW){toast("Wheel is full at "+MAXW);return}
-    WHEEL.push(id);toast("Added: "+R[id].name);
+    WHEEL.push(id);toast("Added: "+byId(id).name);
   }
   $("#winner").classList.remove("on");
   await saveWheel();renderWheel();render();
@@ -619,8 +805,9 @@ $("#spin").onclick=()=>{
     const r=w[pick];
     $("#wName").textContent=r.name;
     $("#wMeta").textContent=`#${r.unit} · ${r.cuisine} · ${r.rating.toFixed(1)}★ from ${r.votes.toLocaleString()} Google reviews · about $${r.pax} per pax`;
-    $("#wActs").innerHTML=actions(r,count(r.id)?"Dined in again":"I dined in");
+    $("#wActs").innerHTML=actions(r);
     $("#winner").classList.add("on");
+    showVerdict(r);
   }, reduce?60:4700);
 };
 
@@ -641,19 +828,27 @@ $("#wClear").onclick=async()=>{
 
 /* ---------------- LOGGING ---------------- */
 document.addEventListener("click",async e=>{
+  const kb=e.target.closest("[data-kill]");
+  if(kb){await killOutlet(+kb.dataset.kill);return}
+  const rb=e.target.closest("[data-restore]");
+  if(rb){await restoreOutlet(+rb.dataset.restore);return}
   const wb=e.target.closest("[data-wheel]");
   if(wb){await toggleWheel(+wb.dataset.wheel);return}
   const wu=e.target.closest("[data-unwheel]");
   if(wu){await toggleWheel(+wu.dataset.unwheel);return}
   const b=e.target.closest("[data-log]");
   if(b){
-    const r=R[+b.dataset.log];
+    const r=byId(+b.dataset.log);if(!r)return;
     LOG.push({id:r.id,name:r.name,t:Date.now()});
     const ok=await save();
     renderLog();render();
     if($("#winner").classList.contains("on")){
       const m=R.find(x=>x.name===$("#wName").textContent);
-      if(m)$("#wActs").innerHTML=actions(m,"Dined in again");
+      if(m)$("#wActs").innerHTML=actions(m);
+    }
+    if($("#modal").classList.contains("on")){
+      const m=R.find(x=>x.name===$("#mName").textContent);
+      if(m)$("#mActs").innerHTML=actions(m);
     }
     toast(ok?"Logged: "+r.name:"Logged (this session only)");
     return;
@@ -681,13 +876,79 @@ $("#exp").onclick=async()=>{
   catch(e){prompt("Copy your log:",txt)}
 };
 
+/* ---------------- EDIT LIST ---------------- */
+function renderBinned(){
+  const box=$("#binned");
+  const gone=[...REMOVED].map(id=>byId(id)).filter(Boolean);
+  if(!gone.length){box.innerHTML=`<p style="margin:0">Nothing removed yet.</p>`;return}
+  box.innerHTML=`<h4>Removed (${gone.length})</h4>
+    <p style="margin:0 0 9px">Tap to put one back.</p>
+    <div class="w-list">`+gone.map(r=>
+      `<span class="w-tag" style="color:#8A6100">${esc(r.name)}
+       <button data-restore="${r.id}" aria-label="Restore ${esc(r.name)}">↺</button></span>`).join("")+`</div>`;
+}
+
+$("#editToggle").onclick=()=>{
+  editing=!editing;
+  $("#editToggle").setAttribute("aria-pressed",editing);
+  $("#editToggle").textContent=editing?"Close":"Add new shop";
+  $("#editbar").classList.toggle("on",editing);
+  if(editing)renderBinned();
+  render();
+};
+
+$("#addGo").onclick=async()=>{
+  const name=$("#fName").value.trim();
+  const unit=$("#fUnit").value.trim().replace(/^#/,"");
+  const cuisine=$("#fCuisine").value;
+  const pax=parseInt($("#fPax").value,10);
+  if(!name){toast("Name is required");$("#fName").focus();return}
+  if(!unit){toast("Unit number is required");$("#fUnit").focus();return}
+  if(!(pax>0)){toast("Enter a per-pax estimate");$("#fPax").focus();return}
+  if(R.some(r=>r.name.toLowerCase()===name.toLowerCase())){toast("Already in the list");return}
+  const rating=Math.max(0,Math.min(5,parseFloat($("#fRating").value)||0));
+  const votes=Math.max(0,parseInt($("#fVotes").value,10)||0);
+  const tel=$("#fTel").value.replace(/[^0-9]/g,"");
+  const tier=pax>=50?4:pax>=30?3:pax>=16?2:1;
+  CUSTOM.push({id:NEXTID++,name,unit,cuisine,tier,pax,rating,votes,tel});
+  await saveEdits();rebuild();renderChips();render();renderLog();renderWheel();
+  $("#fCount").textContent=R.length;
+  ["fName","fUnit","fPax","fTel","fRating","fVotes"].forEach(k=>$("#"+k).value="");
+  $("#fName").focus();
+  toast("Added: "+name);
+};
+
+async function killOutlet(id){
+  const r=byId(id); if(!r)return;
+  if(!confirm(`Delete "${r.name}" (#${r.unit})?\n\nIt will be removed from the directory and the wheel.\n\nYour mission log is kept, and you can put it back any time from Add new shop \u2192 Removed.\n\nPress OK to delete, or Cancel to keep it.`))return;
+  REMOVED.add(id);
+  WHEEL=WHEEL.filter(w=>w!==id);
+  await saveEdits();await saveWheel();
+  rebuild();renderChips();render();renderLog();renderWheel();renderBinned();
+  toast("Removed: "+r.name);
+}
+async function restoreOutlet(id){
+  REMOVED.delete(id);
+  await saveEdits();rebuild();renderChips();render();renderLog();renderWheel();renderBinned();
+  toast("Restored: "+(byId(id)||{}).name);
+}
+
 /* ---------------- BOOT ---------------- */
 (async()=>{
+  const eraw=await Store.get(EKEY);
+  if(eraw){try{
+    const e2=JSON.parse(eraw)||{};
+    CUSTOM=Array.isArray(e2.custom)?e2.custom:[];
+    REMOVED=new Set(Array.isArray(e2.removed)?e2.removed:[]);
+    NEXTID=Math.max(1000,e2.next||1000,...CUSTOM.map(c=>c.id+1));
+  }catch(e){CUSTOM=[];REMOVED=new Set()}}
+  rebuild();renderChips();
   const raw=await Store.get(KEY);
   if(raw){try{LOG=JSON.parse(raw)||[]}catch(e){LOG=[]}}
   const wraw=await Store.get(WKEY);
-  if(wraw){try{WHEEL=(JSON.parse(wraw)||[]).filter(i=>R[i])}catch(e){WHEEL=[]}}
+  if(wraw){try{WHEEL=(JSON.parse(wraw)||[]).filter(i=>byId(i)&&!REMOVED.has(i))}catch(e){WHEEL=[]}}
   renderLog();renderWheel();render();
+  const fc=$("#fCount");if(fc)fc.textContent=R.length;
 })();
 </script>
 
